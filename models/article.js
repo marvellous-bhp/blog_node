@@ -13,6 +13,9 @@ const articleSchema = new mongoose.Schema({
   description: {
     type: String
   },
+  subTitle:{
+    type: String
+  },
   markdown: {
     type: String,
     required: true

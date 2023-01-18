@@ -1,0 +1,32 @@
+header nav{
+    background-color: #c70101!important;
+}
+
+#navbarSupportedContent{
+    justify-content: space-between;
+}
+
+header img{
+    max-width: 32px;
+    max-height: 32px;
+}
+
+header ul li a{
+    color: #fff;
+}
+
+header form{
+    gap: 8px;
+}
+header .btn-outline-success {
+    color: #fff;
+    background-color: transparent;
+    background-image: none;
+    border-color: whitesmoke;
+}
+
+.btn-outline-success:hover {
+    color: #fff;
+    background-color: #C19898;
+    border-color: #C19898;
+}

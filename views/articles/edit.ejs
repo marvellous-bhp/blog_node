@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="/css/edit.css" />
-  <!-- <link rel="stylesheet" type="text/css" href="../css/form_field.css" /> -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Blog</title>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+  <%- include('../partials/head'); %>
 </head>
 <body>
-  <div class="container">
-    <h1 class="mb-4">Edit Article</h1>
+  <header>
+    <%- include('../partials/header'); %>
+  </header>
+  <main>
+    <div class="container">
+      <h1 class="mb-4">Edit Article</h1>
+  
+      <form name="content-article" action="/articles/<%= article.id %>?_method=PUT" method="POST">
+        <%- include('_form_fields') %>
+      </form>
+    </div>
+  </main>
 
-    <form name="content-article" action="/articles/<%= article.id %>?_method=PUT" method="POST">
-      <%- include('_form_fields') %>
-    </form>
-  </div>
+
+  <%- include('../partials/footer'); %>
 </body>
 </html>

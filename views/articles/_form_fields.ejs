@@ -6,6 +6,12 @@
   <label for="description">Description</label>
   <textarea name="description" id="description" class="form-control"><%= article.description %></textarea>
 </div>
+<!-- <script>
+  console.log($(".body-article h1").first().text());
+  $(".body-article h1").first().addClass("subTitle")
+</script> -->
+<div class="subTitle" name="subTitle">
+</div>
 <div class="form-group">
   <label for="markdown">Markdown</label>
   <textarea required name="markdown" id="markdown" class="form-control"><%= article.markdown %></textarea>
@@ -15,6 +21,12 @@
 <button type="submit" class="btn btn-primary">Save</button>
 <script src="/ckeditor/ckeditor/ckeditor.js"></script>
 <script>
-  CKEDITOR.replace( 'description' );
+  CKEDITOR.replace( 'description',{
+    extraPlugins: 'filebrowser',
+    fileBrowserbrowseURL:'/list', //upload location
+    fileBrowserUploadMethod:'form',
+    fileBrowserUploadURL:'/upload' //route
+  } );
   CKEDITOR.replace( 'markdown' );
+  // document.getElementById("yourH1_element_Id").innerHTML = "yourTextHere";
 </script>

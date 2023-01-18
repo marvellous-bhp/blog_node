@@ -22,6 +22,10 @@ router.post('/', async (req, res, next) => {
   next()
 }, saveArticleAndRedirect('new'))
 
+router.post('/upload',(req,res)=>{
+  console.log("ok")
+})
+
 router.put('/:id', async (req, res, next) => {
   req.article = await Article.findById(req.params.id)
   next()
@@ -37,7 +41,9 @@ function saveArticleAndRedirect(path) {
     let article = req.article
     article.title = req.body.title
     article.description = req.body.description
+    // article.subTitle = 
     article.markdown = req.body.markdown
+    console.log(req.body);
     try {
       article = await article.save()
       res.redirect(`/articles/${article.slug}`)
