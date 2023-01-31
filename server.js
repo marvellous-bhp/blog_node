@@ -8,7 +8,7 @@ const initRoutes = require('./routes/user.js')
 const methodOverride = require('method-override')
 const app = express()
 const path = require('path')
-const port = 3434
+const port = 3430
 
 //cnn db
 mongoose.connect('mongodb://localhost/blog', {
