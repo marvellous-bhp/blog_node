@@ -1,0 +1,7 @@
+header nav .container-fluid #navbarSupportedContent .navbar-nav .nav-item a {
+    /* color: aqua; */
+}
+
+header nav .container-fluid #navbarSupportedContent .navbar-nav .nav-item a:hover{
+    color: #C19898;
+}

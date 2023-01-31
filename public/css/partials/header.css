@@ -1,4 +1,7 @@
 header nav{
+    position: fixed!important;
+    width: 100%;
+    z-index: 999;
     background-color: #c70101!important;
 }
 

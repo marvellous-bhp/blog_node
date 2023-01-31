@@ -2,16 +2,21 @@
   <label for="title">Title</label>
   <input required value="<%= article.title %>" type="text" name="title" id="title" class="form-control">
 </div>
+
 <div class="form-group">
   <label for="description">Description</label>
-  <textarea name="description" id="description" class="form-control"><%= article.description %></textarea>
+  <textarea required name="description" id="description" type="text" class="form-control"><%= article.description %></textarea>
+</div>
+
+<div class="form-group">
+  <label for="detail">Detail</label>
+  <textarea name="detail" id="detail" type="text" class="form-control"><%= article.detail %></textarea>
 </div>
 <!-- <script>
   console.log($(".body-article h1").first().text());
   $(".body-article h1").first().addClass("subTitle")
 </script> -->
-<div class="subTitle" name="subTitle">
-</div>
+
 <div class="form-group">
   <label for="markdown">Markdown</label>
   <textarea required name="markdown" id="markdown" class="form-control"><%= article.markdown %></textarea>
@@ -21,7 +26,8 @@
 <button type="submit" class="btn btn-primary">Save</button>
 <script src="/ckeditor/ckeditor/ckeditor.js"></script>
 <script>
-  CKEDITOR.replace( 'description',{
+  // CKEDITOR.replace( 'description' );
+  CKEDITOR.replace( 'detail',{
     extraPlugins: 'filebrowser',
     fileBrowserbrowseURL:'/list', //upload location
     fileBrowserUploadMethod:'form',

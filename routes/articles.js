@@ -1,6 +1,7 @@
 const express = require('express')
 const Article = require('../models/article')
 const router = express.Router()
+const passport = require('passport')
 
 router.get('/new', (req, res) => {
   res.render('articles/new', { article: new Article() })
@@ -26,6 +27,11 @@ router.post('/upload',(req,res)=>{
   console.log("ok")
 })
 
+router.post("/login", passport.authenticate('local',{
+  failureRedirect: "/login",
+  successRedirect: '/'
+}));
+
 router.put('/:id', async (req, res, next) => {
   req.article = await Article.findById(req.params.id)
   next()
@@ -41,7 +47,7 @@ function saveArticleAndRedirect(path) {
     let article = req.article
     article.title = req.body.title
     article.description = req.body.description
-    // article.subTitle = 
+    article.detail = req.body.detail
     article.markdown = req.body.markdown
     console.log(req.body);
     try {

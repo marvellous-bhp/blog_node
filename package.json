@@ -2,21 +2,27 @@
   "name": "blog",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon babel-node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "bcrypt": "^5.1.0",
     "dompurify": "^2.0.8",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
+    "express-session": "^1.17.3",
     "jsdom": "^16.2.1",
     "marked": "^0.8.0",
     "method-override": "^3.0.0",
     "mongoose": "^5.13.15",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
     "slugify": "^1.4.0"
   },
   "devDependencies": {
