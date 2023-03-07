@@ -26,8 +26,8 @@
                   </ul>
           
                   
-                    <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
-                      <form>
+                    <div class="tab-pane " id="pills-register" role="tabpanel" aria-labelledby="tab-register">
+                      <form action="/register" method="post">
                         <div class="text-center mb-3">
                           <p>Sign up with:</p>
                           <button type="button" class="btn btn-link btn-floating mx-1">
@@ -50,22 +50,22 @@
                         <p class="text-center">or:</p>
           
                         <div class="form-outline mb-4">
-                          <input type="text" id="registerName" class="form-control">
+                          <input type="text" id="registerName" class="form-control" name="name">
                           <label class="form-label" for="registerName" style="margin-left: 0px;">Name</label>
                         <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 8px;"></div><div class="form-notch-trailing"></div></div></div>
           
                         <div class="form-outline mb-4">
                           <input type="text" id="registerUsername" class="form-control">
-                          <label class="form-label" for="registerUsername" style="margin-left: 0px;">Username</label>
+                          <label class="form-label" name="username" for="registerUsername" style="margin-left: 0px;" >Username</label>
                         <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 8px;"></div><div class="form-notch-trailing"></div></div></div>
           
                         <div class="form-outline mb-4">
-                          <input type="email" id="registerEmail" class="form-control">
+                          <input type="email" id="registerEmail" class="form-control" name="email">
                           <label class="form-label" for="registerEmail" style="margin-left: 0px;">Email</label>
                         <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 8px;"></div><div class="form-notch-trailing"></div></div></div>
           
                         <div class="form-outline mb-4">
-                          <input type="password" id="registerPassword" class="form-control">
+                          <input type="password" id="registerPassword" class="form-control" name="password">
                           <label class="form-label" for="registerPassword" style="margin-left: 0px;">Password</label>
                         <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 8px;"></div><div class="form-notch-trailing"></div></div></div>
           
