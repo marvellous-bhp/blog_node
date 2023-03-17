@@ -30,9 +30,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Include login routes
-app.use('/login', loginRoutes);
+app.use('/', loginRoutes);
 //view
+// let __dirname = "/public/css/" 
 app.set('views/articles',path.join(__dirname,'views'))
+console.log("aabc",'views/articles',path.join(__dirname,'view'));
 app.set('view engine', 'ejs')
 
 //app conf
@@ -47,35 +49,28 @@ app.post('/upload',(req,res)=>{
   console.log("ok")
 })
 
-app.post('/login',(req,res)=>{
+app.post('/',(req,res)=>{
   console.log(req.body);
 })
 
-app.get('/login', async (req, res) => {
-  
+app.get('/', async (req, res) => {
   res.render('sign/login')
 })
 
-// Set up registration route
-app.post('/register', async (req, res) => {
-  const { username, password } = req.body;
-  const existingLogin = await User.findOne({ username });
-  if (existingLogin) {
-    res.status(409).send('Username already exists');
-    return;
-  }
-  const login = new User({ username, password });
-  await login.save();
-  res.send('Account created successfully');
-});
+
 
 app.get('/register', async (req, res) => {
   
   res.render('sign/register')
 })
 
-app.get('/', async (req, res) => {
-  const articles = await Article.find().sort({ createdAt: 'desc' })
+app.get('/dashboard', async (req, res) => {
+  const userId = req.session.userId;
+  console.log("id: ",userId);
+  let articles = await Article
+  .find({$or:[{User:req.session.userId},{User:null}]})
+  // .find({User:null})
+  .sort({ createdAt: 'desc' })
   res.render('articles/index', { articles: articles })
 })
 

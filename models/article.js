@@ -3,6 +3,7 @@ const marked = require('marked')
 const slugify = require('slugify')
 const createDomPurify = require('dompurify')
 const { JSDOM } = require('jsdom')
+const Joi = require("joi");
 const dompurify = createDomPurify(new JSDOM().window)
 
 const articleSchema = new mongoose.Schema({
@@ -32,7 +33,10 @@ const articleSchema = new mongoose.Schema({
   sanitizedHtml: {
     type: String,
     required: true
-  }
+  },
+  User: Joi.string().meta({
+    _mongoose: { type: "ObjectId", ref: "User" },
+  }),
 })
 
 articleSchema.pre('validate', function(next) {

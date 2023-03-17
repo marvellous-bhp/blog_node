@@ -9,7 +9,7 @@ loginController.showLoginForm = (req, res) => {
 
 loginController.processLogin = async (req, res) => {
   const { username, password } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
 
   try {
     const user = await User.findOne({ username });
