@@ -25,6 +25,10 @@ const articleSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  },
   slug: {
     type: String,
     required: true,
@@ -37,6 +41,11 @@ const articleSchema = new mongoose.Schema({
   User: Joi.string().meta({
     _mongoose: { type: "ObjectId", ref: "User" },
   }),
+  status: {
+    type: String,
+    enum: ['public', 'private'],
+    // default: 'public'
+  }
 })
 
 articleSchema.pre('validate', function(next) {

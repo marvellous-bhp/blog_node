@@ -18,6 +18,16 @@ mongoose.connect('mongodb://localhost/blog', {
 })
 
 
+const mime = require('mime');
+
+
+
+// app.get('/helpers/selectedOptions.js', function(req, res) {
+//   res.setHeader('Content-Type', mime.getType('js'));
+//   // your code to send the selectedOptions.js file
+// });
+
+
 // Set up session middleware
 app.use(session({
   secret: 'mysecretkey',
@@ -33,8 +43,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/', loginRoutes);
 //view
 // let __dirname = "/public/css/" 
-app.set('views/articles',path.join(__dirname,'views'))
-console.log("aabc",'views/articles',path.join(__dirname,'view'));
+app.set('views/articles',path.join(__dirname))
+console.log("aabc",'views/articles',path.join(__dirname));
 app.set('view engine', 'ejs')
 
 //app conf
@@ -68,7 +78,7 @@ app.get('/dashboard', async (req, res) => {
   const userId = req.session.userId;
   console.log("id: ",userId);
   let articles = await Article
-  .find({$or:[{User:req.session.userId},{User:null}]})
+  .find({$or:[{User:req.session.userId},{status:'public'}]})
   // .find({User:null})
   .sort({ createdAt: 'desc' })
   res.render('articles/index', { articles: articles })

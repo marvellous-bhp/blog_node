@@ -37,13 +37,6 @@ router.post('/login', async (req, res) => {
 // }
 // router.get('/', getUser());
 
-// Register route
-router.post('/register', async (req, res) => {
-  const { username, password } = req.body;
-  const login = new User({ username, password });
-  await login.save();
-  res.send('Account created successfully');
-});
 
 // Register route
 router.post('/register', async (req, res) => {
@@ -63,6 +56,7 @@ router.post('/register', async (req, res) => {
   // Logout route
 router.post('/logout', (req, res) => {
 req.session.destroy();
+console.log(req.session,"hello");
 res.redirect(`/`);
 });
 
