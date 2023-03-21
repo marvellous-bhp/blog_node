@@ -39,10 +39,11 @@ router.post('/login', async (req, res) => {
 
 // Register route
 router.post('/register', async (req, res) => {
-  const { username, password } = req.body;
-  const login = new User({ username, password });
+  console.log(req.body,"avvv");
+  const { name, email, password } = req.body;
+  const login = new User({ name, email, password });
   await login.save();
-  res.send('Account created successfully');
+  res.redirect(`/`);
 });
 
 // Register route

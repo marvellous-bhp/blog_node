@@ -1,7 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
-const bcrypt = require('bcrypt')
+// const bcrypt = require('bcrypt')
 const Article = require('./models/article')
 const articleRouter = require('./routes/articles')
 // const initRoutes = require('./routes/loginRoutes.js')
@@ -12,6 +12,7 @@ const path = require('path')
 const port = 3332
 const session = require('express-session');
 const loginRoutes = require('./routes/signRoutes');
+const user = require('./routes/user');
 //cnn db
 mongoose.connect('mongodb://localhost/blog', {
   useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true
@@ -31,12 +32,35 @@ app.use(express.urlencoded({ extended: true }));
 
 // Include login routes
 app.use('/', loginRoutes);
+
+app.use('/user', user);
 //view
-// let __dirname = "/public/css/" 
 app.set('views/articles',path.join(__dirname,'views'))
-console.log("aabc",'views/articles',path.join(__dirname,'view'));
+
 app.set('view engine', 'ejs')
 
+// app.get('/public/css/article.css', function(req, res) {
+//   res.setHeader('Content-Type', 'text/css');
+//   res.sendFile(__dirname + '/public/css/article.css');
+// });
+// app.get('/public/css/edit.css', function(req, res) {
+//   res.setHeader('Content-Type', 'text/css');
+//   res.sendFile(__dirname + '/public/css/edit.css');
+// });
+// app.get('/public/css/partials/header.css', function(req, res) {
+//   res.setHeader('Content-Type', 'text/css');
+//   res.sendFile(__dirname + '/public/css/edit.css');
+// });
+// app.get('/public/css/partials/main.css', function(req, res) {
+//   res.setHeader('Content-Type', 'text/css');
+//   res.sendFile(__dirname + '/public/css/edit.css');
+// });
+// app.get('/public/css/login.css', function(req, res) {
+//   res.setHeader('Content-Type', 'text/css');
+//   res.sendFile(__dirname + '/public/css/login.css');
+// });
+
+// console.log("aabc",path.join(__dirname + '/public/css/edit.css'));
 //app conf
 // app.use(express.urlencoded({ extended: false }))
 // app.use(methodOverride('_method'))
@@ -44,6 +68,12 @@ app.set('view engine', 'ejs')
 // app.use(bodyParser.urlencoded({extended: true}));
 // loginRoutes(app);
 
+app.get('/listUser', async (req, res) => {
+  let listUser = await User.find();
+  let list = JSON.stringify(listUser)
+  console.log("list",list.length);
+  res.render('users/listUser', { list: list})
+});
 
 app.post('/upload',(req,res)=>{
   console.log("ok")

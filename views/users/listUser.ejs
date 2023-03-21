@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+    <body>
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+    <main>
+        <div class="container">
+            <div class="action">
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% let data = JSON.parse(list); %>
+                      <% console.log(data) %>
+                      <% for (let i = 0; i < data.length; i++) { %>
+                        <tr>
+                          <td><%= data[i]._id %></td>
+                          <td><%= data[i].name %></td>
+                          <td><%= data[i].email %></td>
+                          <td>
+                            <a href="user/edit/<%= data[i]._id %>" class="btn btn-primary">Edit</a>
+                            <form action="/user/delete/<%= data[i]._id %>" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                          </td>
+                        </tr>
+                      <% } %>
+                    </tbody>
+                  </table>
+                <!-- <a href="/dashboard" class="btn btn-secondary">All Articles</a> -->
+            </div>  
+        </div>
+    </main>
+    
+    <%- include('../partials/footer'); %>
+
+    </body>
+</html>
