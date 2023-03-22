@@ -1,35 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <%- include('../partials/head'); %>
-</head>
-<body>
-  <header>
-    <%- include('../partials/header'); %>
-  </header>
-  <main>
-    <div class="container">
-      <div class="content">
-        <h1 class="mb-3 heading-artilcle"><%= article.title %></h1>
-        <div class="text-muted mb-2 article-date">
-          <%= article.createdAt.toLocaleDateString() %>
+  <head>
+    <%- include('../partials/head'); %>
+  </head>
+  <body>
+    <header>
+      <%- include('../partials/header'); %>
+    </header>
+    <main>
+      <div class="container">
+        <div class="content">
+          <h1 class="mb-3 heading-artilcle"><%= article.title %></h1>
+          <div class="text-muted mb-2 article-date">
+            <%= article.createdAt.toLocaleDateString() %>
+          </div>
+          <article class="body-article">
+            <%- article.description %>
+            <%- article.detail %>
+          </article>
+          <div class="tail-article">
+            <%- article.sanitizedHtml %>
+          </div>
+          
         </div>
-        <article class="body-article">
-          <%- article.description %>
-          <%- article.detail %>
-        </article>
-        <div class="tail-article">
-          <%- article.sanitizedHtml %>
-        </div>
+        <div class="action">
+          <a href="/dashboard" class="btn btn-secondary">All Articles</a>
+          <a href="/articles/edit/<%= article.id %>" class="btn btn-info">Edit</a>
+        </div>  
       </div>
-    <div class="action">
-      <a href="/dashboard" class="btn btn-secondary">All Articles</a>
-      <a href="/articles/edit/<%= article.id %>" class="btn btn-info">Edit</a>
-    </div>  
-    </div>
-  </main>
-  
-  <%- include('../partials/footer'); %>
 
-</body>
+    </main>
+    
+    <%- include('../partials/footer'); %>
+
+  </body>
+  <!-- Add jQuery library to your HTML file -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+ 
+
 </html>

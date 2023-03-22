@@ -33,3 +33,7 @@ header .btn-outline-success {
     background-color: #C19898;
     border-color: #C19898;
 }
+
+header .nav-link{
+    color: #fff!important;
+}

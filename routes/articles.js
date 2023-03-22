@@ -13,16 +13,12 @@ router.get('/edit/:id', async (req, res) => {
   let article = await Article.findById(req.params.id)
   
   let user_id = article.User
-  console.log("pr----",user_id);
-  console.log("pr----",req.session.userId);
   if (user_id === req.session.userId){
     res.render('articles/edit', { article: article })
   }
   else{
     res.render('/dashboard')
-  }
-  console.log("---",article);
-  
+  }  
 })
 
 router.get('/:slug', async (req, res) => {

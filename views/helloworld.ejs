@@ -1,0 +1,65 @@
+<!-- Render the comments section -->
+<section id="comments">
+    <% if (comments.length > 0) { %>
+      <% comments.forEach(function(comment) { %>
+        <article class="comment">
+          <header>
+            <h3><%= comment.author %></h3>
+            <time><%= comment.createdAt.toDateString() %></time>
+          </header>
+          <p><%= comment.body %></p>
+        </article>
+      <% }); %>
+    <% } else { %>
+      <p>No comments yet.</p>
+    <% } %>
+
+    <!-- Render the comment form -->
+    <form id="comment-form">
+      <div>
+        <label for="author">Name:</label>
+        <input type="text" name="author" id="author" required>
+      </div>
+      <div>
+        <label for="body">Comment:</label>
+        <textarea name="body" id="body" required></textarea>
+      </div>
+      <button id="submit-comment">Submit Comment</button>
+    </form>
+  </section>
+
+
+   <!-- Add a JavaScript script to handle the form submission -->
+   <script>
+    $(function() {
+      $('#submit-comment').click(function(e) {
+        e.preventDefault();
+        $.ajax({
+          type: 'POST',
+          url: '/<%= post._id %>/comments',
+          data: {
+            author: $('#author').val(),
+            body: $('#body').val()
+          }
+        })
+        .done(function(comment) {
+          // Add the new comment to the DOM
+          $('#comments').append(`
+            <article class="comment">
+              <header>
+                <h3>${comment.author}</h3>
+                <time>${new Date(comment.createdAt).toDateString()}</time>
+              </header>
+              <p>${comment.body}</p>
+            </article>
+          `);
+
+          // Clear the form
+          $('#comment-form')[0].reset();
+        })
+        .fail(function(err) {
+          console.log(err);
+        });
+      });
+    });
+  </script>

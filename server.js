@@ -18,9 +18,6 @@ mongoose.connect('mongodb://localhost/blog', {
 })
 
 
-const mime = require('mime');
-
-
 
 // app.get('/helpers/selectedOptions.js', function(req, res) {
 //   res.setHeader('Content-Type', mime.getType('js'));
@@ -43,14 +40,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/', loginRoutes);
 //view
 // let __dirname = "/public/css/" 
-app.set('views/articles',path.join(__dirname))
-console.log("aabc",'views/articles',path.join(__dirname));
+// app.set('views/articles',path.join(__dirname))
+// console.log("aabc",'views/articles',path.join(__dirname));
+// app.use(express.static('blog'));
 app.set('view engine', 'ejs')
 
 //app conf
 // app.use(express.urlencoded({ extended: false }))
 // app.use(methodOverride('_method'))
-// app.use(express.static(path.join(__dirname,'public')))
+// app.use('/static', express.static(path.join(__dirname, 'public')))
+app.use(express.static('public'));
 // app.use(bodyParser.urlencoded({extended: true}));
 // loginRoutes(app);
 
@@ -80,7 +79,7 @@ app.get('/dashboard', async (req, res) => {
   let articles = await Article
   .find({$or:[{User:req.session.userId},{status:'public'}]})
   // .find({User:null})
-  .sort({ createdAt: 'desc' })
+  .sort({ updateAt: 'desc' })
   res.render('articles/index', { articles: articles })
 })
 
