@@ -44,8 +44,10 @@ const articleSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ['public', 'private'],
-    // default: 'public'
-  }
+  },
+  like_list: Joi.array().meta({
+    _mongoose: { type: "[ObjectId]", ref: "User", default: [] },
+  }),
 })
 
 articleSchema.pre('validate', function(next) {

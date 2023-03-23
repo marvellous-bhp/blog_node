@@ -8,7 +8,7 @@
     <%- include('../partials/header'); %>
   </header>
   <main>
-    <div class="body">
+    <div class="body index">
       <div class="container">
         <h1 class="mb-4">Blog Articles</h1>
         <a href="/articles/new" class="btn btn-success">New Article</a>
@@ -16,7 +16,7 @@
           <div class="card mt-4">
             <div class="card-body">
               <h4 class="card-title"><%= article.title %></h4>
-              <p class="card-title"><%= article.description %></p>
+              <div class="card-title" v-html="this.courrier.Text"><%= article.description %></div>
               <div class="card-subtitle text-muted mb-2">
                 <%= article.createdAt.toLocaleDateString() %>
               </div>
@@ -29,6 +29,18 @@
                   </form>
                 </div>
               </div>
+              <div class="react-like mt-2">
+                <!-- <i class="fa-solid fa-thumbs-up"></i> -->
+                <a class="like-icon" onclick="like()">
+                  <p><%= article.like_list %></p>
+                  <% if (article.like_list) { %>
+                    <img src="/icon/like-active.jpg" alt="active" class="like-active ">
+                  <%} else { %>
+                      <img src="/icon/like-unactive.png" alt="active" class="like-active ">
+                  <% } %>
+                </a>
+              </div>
+              
               
             </div>
           </div>
@@ -36,6 +48,25 @@
       </div>
     </div>
   </main>
+  <script>
+    // $(".like-icon").click(function(){
+    //   // $(this).hide();
+    //   console.log("like");
+    // });
+    function sendData() {
+      $.ajax({
+        url: '/like',
+        type: 'POST',
+        data: {  },
+        success: function(response) {
+          console.log("like");
+        },
+        error: function(xhr, status, error) {
+          // Handle error response
+        }
+      });
+    }
+  </script>
   
   
   

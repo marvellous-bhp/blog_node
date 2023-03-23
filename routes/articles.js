@@ -51,9 +51,14 @@ router.post('/:id', async (req, res, next) => {
 
 router.post('/delete/:id', async (req, res) => {
   await Article.findByIdAndDelete(req.params.id)
-  // console.log(req.params.id,"ddd");
   res.redirect('/dashboard')
 })
+
+router.post('/like', async (req, res) => {
+  await Article.findByIdAndDelete(req.params.id)
+  res.redirect('/dashboard')
+})
+
 
 function saveArticleAndRedirect(path) {
   return async (req, res) => {

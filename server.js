@@ -50,6 +50,7 @@ app.set('view engine', 'ejs')
 // app.use(methodOverride('_method'))
 // app.use('/static', express.static(path.join(__dirname, 'public')))
 app.use(express.static('public'));
+app.use(express.static('helpers'))
 // app.use(bodyParser.urlencoded({extended: true}));
 // loginRoutes(app);
 
@@ -66,21 +67,17 @@ app.get('/', async (req, res) => {
   res.render('sign/login')
 })
 
-
-
 app.get('/register', async (req, res) => {
-  
   res.render('sign/register')
 })
 
 app.get('/dashboard', async (req, res) => {
   const userId = req.session.userId;
-  console.log("id: ",userId);
+  // console.log("id: ",userId);
   let articles = await Article
   .find({$or:[{User:req.session.userId},{status:'public'}]})
-  // .find({User:null})
-  .sort({ updateAt: 'desc' })
-  res.render('articles/index', { articles: articles })
+  .sort({ createAt: 'ascending' })
+  res.render('articles/index', { articles })
 })
 
 app.use('/articles', articleRouter)
