@@ -11,8 +11,6 @@ router.post('/login', async (req, res) => {
   const login = await User.findOne({ username, password });
   if (login) {
     req.session.loggedInAt = login.loggedInAt;
-    let id_user = login._id;
-    console.log("id user",id_user);
     console.log(login,"aaaall");
     req.session.userId = login._id;
     res.redirect(`/dashboard`)
@@ -20,6 +18,7 @@ router.post('/login', async (req, res) => {
     res.status(401).send('Incorrect username or password');
   }
 });
+
 // function getUser(req, res) {
 
 //   let user_id = req.params.id;

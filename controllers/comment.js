@@ -4,8 +4,8 @@ exports.createComment = async (req, res) => {
   try {
     const comment = new Comment({
       text: req.body.text,
-      author: req.body.author,
-      post: req.params.postId
+      User: req.session.userId,
+      arrticle: req.params.id,
     });
     await comment.save();
     res.status(201).json(comment);

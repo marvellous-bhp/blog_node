@@ -29,10 +29,16 @@
                   </form>
                 </div>
               </div>
-              <div class="react-like mt-2">
-                <!-- <i class="fa-solid fa-thumbs-up"></i> -->
-                <a class="like-icon" onclick="like()">
-                  <p><%= article.like_list %></p>
+              <div class="react-like mt-2 d-flex">
+                <div class="number-of-like">
+                  <% if (article.like_list) { %>
+                    <p><%= article.like_list.length %></p>
+                    <%} else { %>
+                    <p> 0 </p>
+                  <% } %>
+                </div>
+                <a class="like-icon" onclick="like('<%= article.id %>')">
+                  
                   <% if (article.like_list) { %>
                     <img src="/icon/like-active.jpg" alt="active" class="like-active ">
                   <%} else { %>
@@ -40,7 +46,10 @@
                   <% } %>
                 </a>
               </div>
-              
+              <div class="input-group mb-3">
+                <input name="comment" type="text" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">Send</button>
+              </div>
               
             </div>
           </div>
@@ -53,16 +62,32 @@
     //   // $(this).hide();
     //   console.log("like");
     // });
-    function sendData() {
+    function like(post_id) {
       $.ajax({
-        url: '/like',
+        url: `/articles/like/${post_id}`,
         type: 'POST',
-        data: {  },
+        // data: {"a":"123" },
+        // dataType : "json",
         success: function(response) {
-          console.log("like");
+          console.log(response);
         },
         error: function(xhr, status, error) {
-          // Handle error response
+          console.log(error);
+        }
+      });
+    }
+
+    function comment(post_id) {
+      $.ajax({
+        url: `/articles/like/${post_id}`,
+        type: 'POST',
+        // data: {"a":"123" },
+        // dataType : "json",
+        success: function(response) {
+          console.log(response);
+        },
+        error: function(xhr, status, error) {
+          console.log(error);
         }
       });
     }

@@ -5,18 +5,23 @@ const commentSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  author: {
-    type: String,
-    required: true
-  },
-  date: {
+  createdAt: {
     type: Date,
     default: Date.now
   },
-  post: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Post'
-  }
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  },
+  User: Joi.string().meta({
+    _mongoose: { type: "ObjectId", ref: "User" },
+  }),
+  arrticle: Joi.string().meta({
+    _mongoose: { type: "ObjectId", ref: "Arrticle" },
+  }),
+  like_list: Joi.array().meta({
+    _mongoose: { type: "[ObjectId]", ref: "User", default: [] },
+  }),
 });
 
 const Comment = mongoose.model('Comment', commentSchema);

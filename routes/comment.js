@@ -3,18 +3,18 @@ const router = express.Router();
 const commentController = require('../controllers/comment');
 
 // Get all comments for a post
-router.get('/:postId/comments', commentController.getAllComments);
+router.get('/:articleId/comments', commentController.getAllComments);
 
 // Get a single comment by ID
-router.get('/:postId/comments/:id', commentController.getComment);
+router.get('/:articleId/comments/:id', commentController.getComment);
 
 // Create a new comment
-router.post('/:postId/comments', commentController.createComment);
+router.post('/:articleId/comments', commentController.createComment);
 
 // Update a comment by ID
-router.put('/:postId/comments/:id', commentController.updateComment);
+router.put('/:articleId/comments/:id', commentController.updateComment);
 
 // Delete a comment by ID
-router.delete('/:postId/comments/:id', commentController.deleteComment);
+router.delete('/:articleId/comments/:id', commentController.deleteComment);
 
 module.exports = router;

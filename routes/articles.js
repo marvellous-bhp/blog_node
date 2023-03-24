@@ -34,9 +34,9 @@ router.post('/', async (req, res, next) => {
   // console.log("user..",req.session);
 }, saveArticleAndRedirect('new'))
 
-router.post('/upload',(req,res)=>{
-  console.log("ok")
-})
+// router.post('/upload',(req,res)=>{
+//   console.log("ok")
+// })
 
 router.post("/", passport.authenticate('local',{
   failureRedirect: "/",
@@ -54,8 +54,44 @@ router.post('/delete/:id', async (req, res) => {
   res.redirect('/dashboard')
 })
 
-router.post('/like', async (req, res) => {
-  await Article.findByIdAndDelete(req.params.id)
+router.post('/like/:id', async (req, res) => {
+  let user_id = req.session.userId;
+  let article = await Article.findById(req.params.id).select("like_list");
+
+  if(user_id){
+    if (article.like_list && (article.like_list.includes(user_id))){
+      await Article.updateOne(
+        {
+          _id: req.params.id,
+        },
+        {
+          $pull: {
+            like_list: user_id,
+          },
+        }
+      )
+      console.log(article.like_list.length,"aaa");
+    }
+    else {
+        await Article.updateOne(
+          {
+            _id: req.params.id,
+          },
+          {
+            $push: {
+              like_list: user_id,
+            },
+          }
+        );
+      }
+  }
+  
+    
+
+  
+  console.log("b",article.like_list);
+  
+  console.log(user_id);
   res.redirect('/dashboard')
 })
 
