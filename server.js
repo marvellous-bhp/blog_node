@@ -1,24 +1,23 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
-const bcrypt = require('bcrypt')
+// const bcrypt = require('bcrypt')
 const Article = require('./models/article')
 const User = require('./models/user');
-const articleRouter = require('./routes/articles')
+
 // const initRoutes = require('./routes/loginRoutes.js')
 const methodOverride = require('method-override')
 const app = express()
 const path = require('path')
 const port = 3332
 const session = require('express-session');
+const articleRouter = require('./routes/articles');
 const loginRoutes = require('./routes/signRoutes');
+const commentRouter = require('./routes/comment');
 //cnn db
 mongoose.connect('mongodb://localhost/blog', {
   useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true
 })
-
-
-
 
 
 // Set up session middleware
@@ -34,6 +33,10 @@ app.use(express.urlencoded({ extended: true }));
 
 // Include login routes
 app.use('/', loginRoutes);
+//
+app.use('/articles', articleRouter);
+//
+app.use('/cmt', commentRouter)
 //view
 app.set('view engine', 'ejs')
 
@@ -68,7 +71,7 @@ app.get('/dashboard', async (req, res) => {
   res.render('articles/index', { articles,user })
 })
 
-app.use('/articles', articleRouter)
+
 
 app.listen(port, () => {
   console.log(`port ${port}`);

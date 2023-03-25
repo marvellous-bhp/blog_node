@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const Joi = require("joi");
+
 
 const commentSchema = new mongoose.Schema({
   text: {

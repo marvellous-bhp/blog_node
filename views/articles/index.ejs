@@ -38,17 +38,19 @@
                   <% } %>
                 </div>
                 <a class="like-icon" onclick="like('<%= article.id %>')">
-                  
-                  <% if (article.like_list) { %>
+                  <% if (article.like_list.some(obj => obj.like_list === user._id)) { %>
                     <img src="/icon/like-active.jpg" alt="active" class="like-active ">
-                  <%} else { %>
-                      <img src="/icon/like-unactive.png" alt="active" class="like-active ">
+                    <!-- <script>console.log(obj);</script> -->
+                  <% } else { %>
+                    <!-- <script>console.log("af",obj);</script> -->
+                    <img src="/icon/like-unactive.png" alt="active" class="like-active ">
                   <% } %>
+                  
                 </a>
               </div>
               <div class="input-group mb-3">
-                <input name="comment" type="text" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
-                <button class="btn btn-outline-secondary" type="button" id="button-addon2">Send</button>
+                <input name="comment" id="cmt-content" type="text" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="button" id="send-cmt" onclick="comment('<%= article.id %>')">Send</button>
               </div>
               
             </div>
@@ -69,7 +71,7 @@
         // data: {"a":"123" },
         // dataType : "json",
         success: function(response) {
-          console.log(response);
+          
         },
         error: function(xhr, status, error) {
           console.log(error);
@@ -78,16 +80,18 @@
     }
 
     function comment(post_id) {
+      var cmt = $('#cmt-content').val();
+      console.log(cmt);
       $.ajax({
-        url: `/articles/like/${post_id}`,
+        url: `/cmt/${post_id}`,
         type: 'POST',
-        // data: {"a":"123" },
+        data: {comment:cmt },
         // dataType : "json",
         success: function(response) {
           console.log(response);
         },
         error: function(xhr, status, error) {
-          console.log(error);
+          console.log("er");
         }
       });
     }

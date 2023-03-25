@@ -1,13 +1,17 @@
 const Comment = require('../models/comment');
 
+
 exports.createComment = async (req, res) => {
+  console.log("rep",req.params);
   try {
+    console.log("cmt");
     const comment = new Comment({
       text: req.body.text,
       User: req.session.userId,
-      arrticle: req.params.id,
+      arrticle: req.params.articleId, // changed from req.params.id
     });
     await comment.save();
+    console.log("cmt ok");
     res.status(201).json(comment);
   } catch (err) {
     console.error(err);

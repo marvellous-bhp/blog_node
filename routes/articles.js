@@ -3,6 +3,7 @@ const Article = require('../models/article')
 const router = express.Router()
 const passport = require('passport')
 
+
 router.get('/new', (req, res) => {
   
   res.render('articles/new', { article: new Article() })
@@ -34,10 +35,6 @@ router.post('/', async (req, res, next) => {
   // console.log("user..",req.session);
 }, saveArticleAndRedirect('new'))
 
-// router.post('/upload',(req,res)=>{
-//   console.log("ok")
-// })
-
 router.post("/", passport.authenticate('local',{
   failureRedirect: "/",
   successRedirect: '/'
@@ -56,7 +53,8 @@ router.post('/delete/:id', async (req, res) => {
 
 router.post('/like/:id', async (req, res) => {
   let user_id = req.session.userId;
-  let article = await Article.findById(req.params.id).select("like_list");
+  let article = await Article.findById(req.params.id).select("like_list _id");
+  let article_id = article._id
 
   if(user_id){
     if (article.like_list && (article.like_list.includes(user_id))){
@@ -83,18 +81,18 @@ router.post('/like/:id', async (req, res) => {
             },
           }
         );
+        console.log(article.like_list.length,"aaa");
       }
   }
   
-    
-
-  
-  console.log("b",article.like_list);
-  
-  console.log(user_id);
-  res.redirect('/dashboard')
+  // res.redirect(`/like${article_id}`)
+  res.redirect(`/dashboard`)
 })
 
+// router.get('/like/:article_id', async (req, res) => {
+//   let article = await Article.findById(req.params.article_id).select()
+//   res.render('articles/index', { articles })
+// })
 
 function saveArticleAndRedirect(path) {
   return async (req, res) => {
