@@ -4,9 +4,9 @@ const Comment = require('../models/comment');
 exports.createComment = async (req, res) => {
   console.log("rep",req.params);
   try {
-    console.log("cmt");
+    console.log("cmt",req.body);
     const comment = new Comment({
-      text: req.body.text,
+      text: req.body.comment,
       User: req.session.userId,
       arrticle: req.params.articleId, // changed from req.params.id
     });

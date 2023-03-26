@@ -10,7 +10,6 @@ router.post('/:articleId', commentController.createComment);
 // Get a single comment by ID
 router.get('/:articleId', commentController.getComment);
 
-
 // Update a comment by ID
 router.put('/:articleId/:id', commentController.updateComment);
 
