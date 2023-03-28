@@ -81,7 +81,7 @@ router.post('/like/:id', async (req, res) => {
             },
           }
         );
-        console.log(article.like_list.length,"aaa");
+        // console.log(article.like_list.length,"aaa");
       }
   }
   

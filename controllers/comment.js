@@ -8,7 +8,7 @@ exports.createComment = async (req, res) => {
     const comment = new Comment({
       text: req.body.comment,
       User: req.session.userId,
-      arrticle: req.params.articleId, // changed from req.params.id
+      article: req.params.articleId, // changed from req.params.id
     });
     await comment.save();
     console.log("cmt ok");

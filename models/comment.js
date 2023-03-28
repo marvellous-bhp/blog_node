@@ -18,7 +18,7 @@ const commentSchema = new mongoose.Schema({
   User: Joi.string().meta({
     _mongoose: { type: "ObjectId", ref: "User" },
   }),
-  arrticle: Joi.string().meta({
+  article: Joi.string().meta({
     _mongoose: { type: "ObjectId", ref: "Arrticle" },
   }),
   like_list: Joi.array().meta({
