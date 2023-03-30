@@ -11,11 +11,12 @@
     <div class="body index">
       <div class="container">
         <h1 class="mb-4">Blog Articles</h1>
+        <p><%- cmt %></p>
         <a href="/articles/new" class="btn btn-success">New Article</a>
         <% articles.forEach(article => { %>
           <div class="container mt-5">
             <div class="d-flex justify-content-center row">
-                <div class="col-md-8">
+                <div class="card mt-4">
                     <div class="d-flex flex-column comment-section">
                       <div class="bg-white p-2">
                           <div class="d-flex flex-row user-info">
@@ -23,129 +24,66 @@
                               <div class="d-flex flex-column justify-content-start ml-2">
                                 <span class="d-block font-weight-bold name"><%= article.markdown %></span>
                                 <span class="date text-black-50"><%= article.status %></span>
-                                <span class="date text-black-50"><%= article.updatedAt %></span>
+                                <span class="date text-black-50"><%= article.updatedAt.toLocaleString() %></span>
                               </div>
                           </div>
                           <div class="mt-2">
-                              <p class="comment-text"><%= article.description %></p>
+                              <p class="comment-text"><%= article.title %></p>
                           </div>
+                      </div>
+                      <div class="d-flex">
+                        <a href="articles/<%= article.slug %>" class="btn btn-primary">Read More</a>
+                        <div class="can-update">
+                          <a href="articles/edit/<%= article.id %>" class="btn btn-info">Edit</a>
+                          <form action="/articles/delete/<%= article.id %>?" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                          </form>
+                        </div>
                       </div>
                       <div class="bg-white">
                           <div class="d-flex flex-row fs-12">
                               <div class="like p-2 cursor"><i class="fa fa-thumbs-o-up"></i><span class="ml-1">Like</span></div>
+                              <div class="react-like mt-2 d-flex">
+                                <div class="number-of-like">
+                                  <% if (article.like_list) { %>
+                                    <p><%= article.like_list.length %></p>
+                                    <%} else { %>
+                                    <p> 0 </p>
+                                  <% } %>
+                                </div>
+                                <a class="like-icon" onclick="like('<%= article.id %>')">
+                                    <img src="/icon/like-active.jpg" alt="active" class="like-active ">
+                                    <!-- <script>console.log(obj);</script> -->
+                                    <!-- <script>console.log("af",obj);</script> -->
+                                  
+                                </a>
+                              </div>
                               <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1">Comment</span></div>
                               <!-- <div class="like p-2 cursor"><i class="fa fa-share"></i><span class="ml-1">Share</span></div> -->
                           </div>
                       </div>
-                      <div class="bg-light p-2">
-                          <div class="d-flex flex-row align-items-start"><img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"><textarea class="form-control ml-1 shadow-none textarea"></textarea></div>
-                          <div class="mt-2 text-right"><button class="btn btn-primary btn-sm shadow-none" type="button">Post comment</button><button class="btn btn-outline-primary btn-sm ml-1 shadow-none" type="button">Cancel</button></div>
+                      <div class="bg-light p-2 comment-group-<%= article.id %>">
+                          <div class="d-flex flex-row align-items-start"><img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"><textarea class="form-control ml-1 shadow-none textarea comment-<%= article.id %>" name="comment-<%= article.id %>"id="cmt-content"></textarea></div>
+                          <div class="mt-2 text-right">
+                            <button class="btn btn-primary btn-sm shadow-none" id="send-cmt" onclick="comment('<%= article.id %>')">Post comment</button>
+                            <button class="btn btn-outline-primary btn-sm ml-1 shadow-none">Cancel</button>
+                          </div>
                       </div>
                       </div>
                 </div>
               </div>
-          </div>
-          <div class="card mt-4">
-            <div class="card-body article-<%= article.id %>">
-              <h4 class="card-title"><%= article.title %></h4>
-              <div class="card-title" v-html="this.courrier.Text"><%= article.description %></div>
-              <div class="card-subtitle text-muted mb-2">
-                <%= article.createdAt.toLocaleDateString() %>
-              </div>
-              <div class="d-flex">
-                <a href="articles/<%= article.slug %>" class="btn btn-primary">Read More</a>
-                <div class="can-update">
-                  <a href="articles/edit/<%= article.id %>" class="btn btn-info">Edit</a>
-                  <form action="/articles/delete/<%= article.id %>?" method="post" class="d-inline">
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                  </form>
-                </div>
-              </div>
-              <div class="react-like mt-2 d-flex">
-                <div class="number-of-like">
-                  <% if (article.like_list) { %>
-                    <p><%= article.like_list.length %></p>
-                    <%} else { %>
-                    <p> 0 </p>
-                  <% } %>
-                </div>
-                <a class="like-icon" onclick="like('<%= article.id %>')">
-                    <img src="/icon/like-active.jpg" alt="active" class="like-active ">
-                    <!-- <script>console.log(obj);</script> -->
-                    <!-- <script>console.log("af",obj);</script> -->
-                  
-                </a>
-              </div>
-              <div class="comment-group-<%= article.id %>">
-                <div class="input-group mb-3 ">
-                  <button class="btn btn-outline-secondary" type="button" id="send-cmt" onclick="comment('<%= article.id %>')">Send</button>
-                  <input name="comment-<%= article.id %>" class="comment-<%= article.id %>" id="cmt-content" type="text" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
-                </div>
-                <!-- <div class="container justify-content-center mt-5 border-left border-right">
-                  <div class="d-flex justify-content-center pt-3 pb-2"> <input type="text" name="text" placeholder="+ Add a note" class="form-control addtxt"> </div>
-                    <div class="d-flex justify-content-center py-2">
-                        <div class="second py-2 px-2"> <span class="text1">Type your note, and hit enter to add it</span>
-                            <div class="d-flex justify-content-between py-1 pt-2">
-                                <div><img src="https://i.imgur.com/AgAC1Is.jpg" width="18"><span class="text2">Martha</span></div>
-                                <div><span class="text3">Upvote?</span><span class="thumbup"><i class="fa fa-thumbs-o-up"></i></span><span class="text4">3</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-              </div>
-
-              
-            </div>
           </div>
         <% }) %>
       </div>
     </div>
   </main>
-  <script>
-    function like(post_id) {
-      $.ajax({
-        url: `/articles/like/${post_id}`,
-        type: 'POST',
-        success: function(response) {
-          console.log(response);
-        },
-        error: function(xhr, status, error) {
-          console.log(error);
-        }
-      });
-    }
-
-    function comment(post_id) {
-      console.log("start");
-      let cmt_name= '.comment-' + post_id
-      console.log("name",cmt_name);
-      let cmt = ($(cmt_name).val());
-      console.log("val",cmt);
-      $.ajax({
-        url: `/cmt/${post_id}`,
-        type: 'POST',
-        data: {comment:cmt },
-        // dataType : "json",
-        success: function(response) {
-          console.log(response);
-          // console.log();
-          let cmt_name= '.comment-group-' + response.article
-          console.log("naa",$(`${cmt_name}`));
-          console.log("nalll",response.text);
-          let text = response.text
-          $(`${cmt_name}`).append(`<div><textare >${text}</textarea></div>`)
-          console.log(1);
-        },
-        error: function(xhr, status, error) {
-          console.log("er");
-        }
-      });
-    }
-  </script>
-  
-  
+  <%= console.log('test') %>
+  <!-- <%- console.log("aa",articles) %> -->
   
   <%- include('../partials/footer'); %>
   
 </body>
+<script>
+  // let a = !{art}
+</script>
 </html>

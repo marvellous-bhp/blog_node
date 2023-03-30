@@ -1,5 +1,6 @@
 const Comment = require('../models/comment');
-
+const Article = require('../models/article');
+const User = require('../models/user');
 
 exports.createComment = async (req, res) => {
   console.log("rep",req.params);
@@ -11,7 +12,19 @@ exports.createComment = async (req, res) => {
       article: req.params.articleId, // changed from req.params.id
     });
     await comment.save();
-    console.log("cmt ok");
+    let cmt_id = comment._id;
+    await Article.updateOne(
+      {
+        _id: req.params.articleId,
+      },
+      {
+        $push: {
+          comment_list: cmt_id,
+        },
+      }
+    )
+    let user = User.findById(comment.User).select("name, avatar")
+    console.log("cmt ok",cmt_id);
     res.status(201).json(comment);
   } catch (err) {
     console.error(err);

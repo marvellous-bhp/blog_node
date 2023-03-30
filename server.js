@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 // const bcrypt = require('bcrypt')
 const Article = require('./models/article')
 const User = require('./models/user');
+const Comment = require('./models/comment');
 
 // const initRoutes = require('./routes/loginRoutes.js')
 const methodOverride = require('method-override')
@@ -67,8 +68,25 @@ app.get('/dashboard', async (req, res) => {
   .findById(userId)
   let articles = await Article
   .find({$or:[{User:req.session.userId},{status:'public'}]})
+  .populate([
+    {
+      path: 'Comment',
+      select: "",
+    },])
   .sort({ updateAt: 1 })
-  res.render('articles/index', { articles,user })
+  let cmt = await Comment
+  .find({User:req.session.userId})
+  .populate([
+    {
+      path: 'Articles',
+      select: "title",
+    },])
+  .sort({ updateAt: 1 })
+  for(let i=0;i<articles.length;i++){
+    // console.log(articles[i]);
+  }
+  // console.log("aaar",articles);
+  res.render('articles/index', { articles,user, cmt,aa: JSON.stringify(articles) })
 })
 
 

@@ -46,7 +46,10 @@ const articleSchema = new mongoose.Schema({
     enum: ['public', 'private'],
   },
   like_list: Joi.array().meta({
-    _mongoose: { type: "[ObjectId]", ref: "User", default: [] },
+    _mongoose: { type: "[ObjectId]", ref: "User"},
+  }),
+  comment_list: Joi.array().meta({
+    _mongoose: { type: "[ObjectId]", ref: "Comment"},
   }),
 })
 
