@@ -13,16 +13,16 @@ exports.createComment = async (req, res) => {
     });
     await comment.save();
     let cmt_id = comment._id;
-    await Article.updateOne(
-      {
-        _id: req.params.articleId,
-      },
-      {
-        $push: {
-          comment_list: cmt_id,
-        },
-      }
-    )
+    // await Article.updateOne(
+    //   {
+    //     _id: req.params.articleId,
+    //   },
+    //   {
+    //     $push: {
+    //       comment_list: cmt_id,
+    //     },
+    //   }
+    // )
     let user = User.findById(comment.User).select("name, avatar")
     console.log("cmt ok",cmt_id);
     res.status(201).json(comment);

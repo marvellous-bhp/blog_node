@@ -11,7 +11,7 @@ router.post('/:articleId', commentController.createComment);
 router.get('/:articleId', commentController.getComment);
 
 // Update a comment by ID
-router.put('/:articleId/:id', commentController.updateComment);
+router.post('/:id/edit', commentController.updateComment);
 
 // Delete a comment by ID
 router.delete('/:articleId/:id', commentController.deleteComment);
