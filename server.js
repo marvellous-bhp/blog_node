@@ -68,44 +68,20 @@ app.get('/dashboard', async (req, res) => {
   .findById(userId)
   let articles = await Article
   .find({$or:[{User:req.session.userId},{status:'public'}]})
-  .populate([{path:'comment_list'}])
+  // .populate([{path:'Comment'}])
   .sort({ updateAt: 1 })
-  let cmt = await Comment
-  .find({User:req.session.userId})
-  .populate([
-    {
-      path: 'Articles',
-      select: "title",
-    },])
-  .sort({ updateAt: 1 })
-  
-  Article.find({$or:[{User:req.session.userId},{status:'public'}]}, (err, articles) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-  
-    // For each article, find its associated comments
-    articles.forEach((article) => {
-      let cme = Comment.find({ article: article._id }, (err, comments) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-      
-        // Print the article and its comments
-        // console.log(`Article: ${article.title}`);
-        // console.log(`Comments: ${comments.map((c) => c.text).join(', ')}`);
-      });
-      // console.log("cmt",cme);
-    });
-
-    
-  });
 
 
-  console.log("aaar",articles);
-  res.render('articles/index', { articles,user, cmt,aa: JSON.stringify(articles) })
+  for(let i=0; i<articles.length; i++){
+    let cmt = await Comment.find({ article: articles[i]._id.toString() });
+    // console.log("cmmm",cmt);
+    (articles[i]).comment_list = cmt;
+    // console.log("cmme",articles[i]);
+  }
+  // let cme = await Comment.find({ article: "641b21e0abf32c3748942a4b" })
+
+  // console.log("aaar",articles[0].comment_list[0]);
+  res.render('articles/index', { articles,user,aa: JSON.stringify(articles) })
 })
 
 

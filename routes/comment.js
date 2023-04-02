@@ -14,6 +14,6 @@ router.get('/:articleId', commentController.getComment);
 router.post('/:id/edit', commentController.updateComment);
 
 // Delete a comment by ID
-router.delete('/:articleId/:id', commentController.deleteComment);
+router.post('/:id/del', commentController.deleteComment);
 
 module.exports = router;

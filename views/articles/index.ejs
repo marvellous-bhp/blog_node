@@ -11,7 +11,7 @@
     <div class="body index">
       <div class="container">
         <h1 class="mb-4">Blog Articles</h1>
-        <p><%- articles[11] %></p>
+        <!-- <p><%- articles[11] %></p> -->
         <a href="/articles/new" class="btn btn-success">New Article</a>
         <% articles.forEach(article => { %>
           <div class="container mt-5">
@@ -74,6 +74,29 @@
                             <button class="btn btn-primary btn-sm shadow-none" id="send-cmt" onclick="comment('<%= article.id %>')">Post comment</button>
                             <button class="btn btn-outline-primary btn-sm ml-1 shadow-none">Cancel</button>
                           </div>
+                          <% article.comment_list.forEach(comment => { %> 
+                            <div class = "cmt-<%= comment.id %>">
+                              <div class="d-flex ">
+                              <div class="user">
+                                <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg"  width="40">
+                              </div>
+                              <input value = <%= comment.text %> disabled>
+                                <div class="dropdown">
+                                <a class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                    <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                                  </svg>
+                                </a>
+                              
+                                <ul class="dropdown-menu">
+                                  <li><button class="dropdown-item" onclick="edit_comment('<%= comment.id %>')" >Edit</button></li>
+                                  <li><button class="dropdown-item" onclick="del_comment('<%= comment.id %>')">Delete</button></li>
+                                </ul>
+                                </div>
+                              </div>
+                            </div>
+                          <%}) %>
+                          
                       </div>
                       </div>
                 </div>

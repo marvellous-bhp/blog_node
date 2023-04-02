@@ -13,16 +13,16 @@ exports.createComment = async (req, res) => {
     });
     await comment.save();
     let cmt_id = comment._id;
-    // await Article.updateOne(
-    //   {
-    //     _id: req.params.articleId,
-    //   },
-    //   {
-    //     $push: {
-    //       comment_list: cmt_id,
-    //     },
-    //   }
-    // )
+    await Article.updateOne(
+      {
+        _id: req.params.articleId,
+      },
+      {
+        $push: {
+          comment_list: cmt_id,
+        },
+      }
+    )
     let user = User.findById(comment.User).select("name, avatar")
     console.log("cmt ok",cmt_id);
     res.status(201).json(comment);
@@ -68,7 +68,7 @@ exports.deleteComment = async (req, res) => {
     if (!comment) {
       return res.status(404).send('Comment not found');
     }
-    res.send('Comment deleted');
+    res.redirect('/dashboard')
   } catch (err) {
     console.error(err);
     res.status(500).send('Server Error');
