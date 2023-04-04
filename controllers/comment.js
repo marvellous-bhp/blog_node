@@ -47,6 +47,7 @@ exports.getComment = async (req, res) => {
 
 exports.updateComment = async (req, res) => {
   try {
+    console.log("repara",req.body);
     const comment = await Comment.findByIdAndUpdate(
       req.params.id,
       { $set: req.body },

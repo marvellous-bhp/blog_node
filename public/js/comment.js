@@ -1,3 +1,9 @@
+function start_comment(){
+  console.log(123);
+  $(".comment-form").css("display","block");
+  // CKEDITOR.replace( 'comment-ckedit' );
+}
+
 function comment(post_id) {
     console.log("start");
     let cmt_name= '.comment-' + post_id
@@ -22,7 +28,7 @@ function comment(post_id) {
           <div class="user">
             <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg"  width="40">
           </div>
-          <input value = "${text}" disabled>
+          <div> ${text} </div>
             <div class="dropdown">
             <a class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
@@ -46,10 +52,35 @@ function comment(post_id) {
     });
   }
 
+  function start_edit(cmt_id){
+    let cmt_class_name = ".cmt-" +  cmt_id;
+    let cmt_content_name = ".cmt-content-" +  cmt_id;
+    let cmt_text = $(`${cmt_content_name}`).text()
+    $(`${cmt_class_name}`).css("display","none");
+    $(`${cmt_class_name}`).parent().append(`<div class="comment-form" style="display: block" >
+    <div class="d-flex flex-row align-items-start">
 
+      <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40">
+      <textarea id="txt-${cmt_id}" class="form-control ml-1 shadow-none textarea comment-${cmt_id}-edit" >
+        ${cmt_text}
+      </textarea>
+
+    </div>
+    
+    <div class="mt-2 text-right">
+      <button class="btn btn-primary btn-sm shadow-none" id="send-cmt" onclick="edit_comment('${cmt_id}')">Post comment</button>
+      <button class="btn btn-outline-primary btn-sm ml-1 shadow-none">Cancel</button>
+    </div>
+  </div>`)
+    console.log(cmt_text);
+
+  }
 
   function edit_comment(cmt_id) {
-    console.log("start");
+    console.log("start edit");
+    let name_edit = ".comment-"+cmt_id+"-edit"
+    let cmt_text =  $(`${name_edit}`).text()
+    console.log();
 
     // console.log("name",cmt_name);
     // let cmt = ($(cmt_name).val());
@@ -57,7 +88,7 @@ function comment(post_id) {
     $.ajax({
       url: `/cmt/${cmt_id}/edit`,
       type: 'POST',
-      // data: {comment:cmt },
+      data: {comment:cmt_text },
       // dataType : "json",
       success: function(response) {
         console.log(response);

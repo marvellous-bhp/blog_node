@@ -1,0 +1,7 @@
+.index .comment-text{
+    cursor: pointer;
+}
+
+.index .comment-form{
+    display: none;
+}

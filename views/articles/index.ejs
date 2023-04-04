@@ -22,7 +22,11 @@
                           <div class="d-flex flex-row user-info">
                             <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40">
                               <div class="d-flex flex-column justify-content-start ml-2">
-                                <span class="d-block font-weight-bold name"><%= article.markdown %></span>
+                                <span class="d-block font-weight-bold name">
+                                  <strong>
+                                    <%= article.markdown %>
+                                  </strong>
+                                </span>
                                 <span class="date text-black-50"><%= article.status %></span>
                                 <span class="date text-black-50"><%= article.updatedAt.toLocaleString() %></span>
                               </div>
@@ -58,21 +62,27 @@
                                   
                                 </a>
                               </div>
-                              <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1">Comment</span></div>
+                              <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1 comment-text" onclick="start_comment()"  >Comment</span></div>
                               <!-- <div class="like p-2 cursor"><i class="fa fa-share"></i><span class="ml-1">Share</span></div> -->
                           </div>
                       </div>
                       <div class="bg-light p-2 comment-group-<%= article.id %>">
-                          <div class="d-flex flex-row align-items-start">
-                            <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40">
-                            <textarea class="form-control ml-1 shadow-none textarea comment-<%= article.id %>" name="comment-<%= article.id %>"id="cmt-content">
+                          <div class="comment-form">
+                            <div class="d-flex flex-row align-items-start">
 
-                            </textarea>
+                              <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40">
+                              <textarea id="comment-ckedit" class="form-control ml-1 shadow-none textarea comment-<%= article.id %>" name="comment-<%= article.id %>"id="cmt-content">
+  
+                              </textarea>
+                              <!-- <script>
+                                CKEDITOR.replace( 'comment-ckedit' ).addClass("comment-<%= article.id %>");
+                              </script> -->
+                            </div>
                             
-                          </div>
-                          <div class="mt-2 text-right">
-                            <button class="btn btn-primary btn-sm shadow-none" id="send-cmt" onclick="comment('<%= article.id %>')">Post comment</button>
-                            <button class="btn btn-outline-primary btn-sm ml-1 shadow-none">Cancel</button>
+                            <div class="mt-2 text-right">
+                              <button class="btn btn-primary btn-sm shadow-none" id="send-cmt" onclick="comment('<%= article.id %>')">Post comment</button>
+                              <button class="btn btn-outline-primary btn-sm ml-1 shadow-none">Cancel</button>
+                            </div>
                           </div>
                           <% article.comment_list.forEach(comment => { %> 
                             <div class = "cmt-<%= comment.id %>">
@@ -80,7 +90,7 @@
                               <div class="user">
                                 <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg"  width="40">
                               </div>
-                              <input value = <%= comment.text %> disabled>
+                              <div class="cmt-content-<%= comment.id %>"><%= comment.text %></div> 
                                 <div class="dropdown">
                                 <a class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
@@ -89,7 +99,7 @@
                                 </a>
                               
                                 <ul class="dropdown-menu">
-                                  <li><button class="dropdown-item" onclick="edit_comment('<%= comment.id %>')" >Edit</button></li>
+                                  <li><button class="dropdown-item" onclick="start_edit('<%= comment.id %>')" >Edit</button></li>
                                   <li><button class="dropdown-item" onclick="del_comment('<%= comment.id %>')">Delete</button></li>
                                 </ul>
                                 </div>
@@ -110,8 +120,7 @@
   
   <%- include('../partials/footer'); %>
   
+  
 </body>
-<script>
-  // let a = !{art}
-</script>
+
 </html>

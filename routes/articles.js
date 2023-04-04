@@ -2,20 +2,24 @@ const express = require('express')
 const Article = require('../models/article')
 const router = express.Router()
 const passport = require('passport')
+const User = require('../models/user')
+const Comment = require('../models/comment')
 
 
-router.get('/new', (req, res) => {
-  
-  res.render('articles/new', { article: new Article() })
+router.get('/new', async(req, res) => {
+  let user = await User.findById(req.session.userId)
+  console.log(user,"user");
+  res.render('articles/new', { article: new Article(),user })
 })
 
 router.get('/edit/:id', async (req, res) => {
   
   let article = await Article.findById(req.params.id)
+  let user = await User.findById(req.session.userId)
   
   let user_id = article.User
   if (user_id === req.session.userId){
-    res.render('articles/edit', { article: article })
+    res.render('articles/edit', { article, user })
   }
   else{
     res.render('/dashboard')
@@ -33,7 +37,7 @@ router.post('/', async (req, res, next) => {
   req.article = new Article()
   next()
   // console.log("user..",req.session);
-}, saveArticleAndRedirect('new'))
+}, saveArticleAndRedirect('/new'))
 
 router.post("/", passport.authenticate('local',{
   failureRedirect: "/",
@@ -47,7 +51,8 @@ router.post('/:id', async (req, res, next) => {
 }, saveArticleAndRedirect('/edit'))
 
 router.post('/delete/:id', async (req, res) => {
-  await Article.findByIdAndDelete(req.params.id)
+  await Article.findByIdAndDelete(req.params.id);
+  await Comment.deleteMany({article:req.params.id})
   res.redirect('/dashboard')
 })
 
