@@ -21,6 +21,10 @@ const commentSchema = new mongoose.Schema({
   article: Joi.string().meta({
     _mongoose: { type: "ObjectId", ref: "Arrticle" },
   }),
+  like_count: {
+    type: Number,
+    required: false
+  },
   like_list: Joi.array().meta({
     _mongoose: { type: "[ObjectId]", ref: "User", default: [] },
   }),

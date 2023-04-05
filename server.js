@@ -85,7 +85,7 @@ app.get('/dashboard', async (req, res) => {
       cmt[j].User = user_cmt[0].name
     }
     (articles[i]).comment_list = cmt;
-    console.log("cmme",articles[i].comment_list);
+    // console.log("cmme",articles[i].comment_list);
   }
   // let cme = await Comment.find({ article: "641b21e0abf32c3748942a4b" })
 
@@ -93,6 +93,43 @@ app.get('/dashboard', async (req, res) => {
   res.render('articles/index', { articles,user,aa: JSON.stringify(articles) })
 })
 
+const multer = require('multer');
+
+
+
+// Thiết lập thư mục 'uploads' để lưu trữ các tệp hình ảnh được tải lên
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    cb(null, Date.now() + ext);
+  }
+});
+
+// Tạo middleware multer để xử lý tệp hình ảnh được tải lên từ giao diện trên
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.includes('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed'));
+    }
+  }
+}).single('image');
+
+// Định nghĩa route xử lý yêu cầu tải lên tệp hình ảnh
+app.post('/upload', (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      res.status(400).send(err.message);
+    } else {
+      res.send('Upload success');
+    }
+  });
+});
 
 
 app.listen(port, () => {

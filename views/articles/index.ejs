@@ -51,11 +51,11 @@
                           <div class="d-flex flex-row fs-12">
                               <div class="like p-2 cursor"><i class="fa fa-thumbs-o-up"></i><span class="ml-1">Like</span></div>
                               <div class="react-like mt-2 d-flex">
-                                <div class="number-of-like">
+                                <div class="number-of-like-<%= article.id %>">
                                   <% if (article.like_list) { %>
-                                    <p><%= article.like_list.length %></p>
+                                    <%= article.like_list.length %>
                                     <%} else { %>
-                                    <p> 0 </p>
+                                     0 
                                   <% } %>
                                 </div>
                                 <a class="like-icon" onclick="like('<%= article.id %>')">

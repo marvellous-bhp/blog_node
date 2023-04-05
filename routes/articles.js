@@ -27,10 +27,19 @@ router.get('/edit/:id', async (req, res) => {
 })
 
 router.get('/:slug', async (req, res) => {
-  let article = await Article.findOne({ slug: req.params.slug })
+  let article = await Article.findOne({ slug: req.params.slug });
+  let cmt = await Comment.find({ article: article._id.toString() });
+    // let user_cmt = await User.find({_id:cmt.User})
+    // console.log("cmmm",cmt);
+    for(let j=0; j<cmt.length;j++){
+      // console.log(cmt);
+      let user_cmt = await User.find({_id:cmt[j].User})
+      cmt[j].User = user_cmt[0].name
+    }
+    (article).comment_list = cmt;
   // console.log("p",req);
   if (article == null) res.redirect('/')
-  res.render('articles/show', { article: article })
+  res.render('articles/show', { article, cmt })
 })
 
 router.post('/', async (req, res, next) => {
@@ -71,7 +80,12 @@ router.post('/like/:id', async (req, res) => {
           $pull: {
             like_list: user_id,
           },
-        }
+        },
+        // {
+        //   $set: {
+        //     like_count: like_list.length(),
+        //   },
+        // }
       )
       console.log(article.like_list.length,"aaa");
     }
@@ -89,15 +103,20 @@ router.post('/like/:id', async (req, res) => {
         // console.log(article.like_list.length,"aaa");
       }
   }
+  let count = article.like_list
   
-  // res.redirect(`/like${article_id}`)
-  res.redirect(`/dashboard`)
+  res.send(count)
+  // res.redirect(`/like/${id}`)
+  // res.redirect(`/dashboard`)
 })
 
-// router.get('/like/:article_id', async (req, res) => {
-//   let article = await Article.findById(req.params.article_id).select()
-//   res.render('articles/index', { articles })
+// router.get("/like/:id", async(req,res)=>{
+//   let article = await Article.findById(req.params.id).select("like_list _id");
+
+//   console.log(article,"kkkkkkk");
+//   res.render("custom/payout_information_1_completed",{payout_completed, current_balance});
 // })
+
 
 function saveArticleAndRedirect(path) {
   return async (req, res) => {
