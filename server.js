@@ -15,6 +15,7 @@ const session = require('express-session');
 const articleRouter = require('./routes/articles');
 const loginRoutes = require('./routes/signRoutes');
 const commentRouter = require('./routes/comment');
+const userRouter = require('./routes/user');
 //cnn db
 mongoose.connect('mongodb://localhost/blog', {
   useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true
@@ -38,6 +39,8 @@ app.use('/', loginRoutes);
 app.use('/articles', articleRouter);
 //
 app.use('/cmt', commentRouter)
+
+app.use('/user', userRouter)
 //view
 app.set('view engine', 'ejs')
 
@@ -74,9 +77,15 @@ app.get('/dashboard', async (req, res) => {
 
   for(let i=0; i<articles.length; i++){
     let cmt = await Comment.find({ article: articles[i]._id.toString() });
+    // let user_cmt = await User.find({_id:cmt.User})
     // console.log("cmmm",cmt);
+    for(let j=0; j<cmt.length;j++){
+      // console.log(cmt);
+      let user_cmt = await User.find({_id:cmt[j].User})
+      cmt[j].User = user_cmt[0].name
+    }
     (articles[i]).comment_list = cmt;
-    // console.log("cmme",articles[i]);
+    console.log("cmme",articles[i].comment_list);
   }
   // let cme = await Comment.find({ article: "641b21e0abf32c3748942a4b" })
 

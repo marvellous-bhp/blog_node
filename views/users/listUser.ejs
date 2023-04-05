@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+    <body>
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+    <main>
+        <div class="container">
+            <div class="action">
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% users.forEach(user => { %>
+                        <tr>
+                          <td><%= user._id %></td>
+                          <td><%= user.name %></td>
+                          <td><%= user.email %></td>
+                          <td></td>
+                        </tr>
+                      <%}) %>
+                    </tbody>
+                  </table>
+                <!-- <a href="/dashboard" class="btn btn-secondary">All Articles</a> -->
+            </div>  
+        </div>
+    </main>
+    
+    <%- include('../partials/footer'); %>
+
+    </body>
+</html>

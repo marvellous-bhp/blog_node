@@ -33,6 +33,9 @@
                           </div>
                           <div class="mt-2">
                               <p class="comment-text"><%= article.title %></p>
+                              <article class="body-article">
+                                <%- article.description %>
+                              </article>
                           </div>
                       </div>
                       <div class="d-flex">
@@ -89,8 +92,17 @@
                               <div class="d-flex ">
                               <div class="user">
                                 <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg"  width="40">
+                                
                               </div>
-                              <div class="cmt-content-<%= comment.id %>"><%= comment.text %></div> 
+                              <div>
+                                <span class="d-block font-weight-bold name">
+                                  <strong>
+                                    <%= comment.User %>
+                                  </strong>
+                                  <div class="cmt-content-<%= comment.id %>"><%= comment.text %></div> 
+                                </span>
+                              </div>
+                              
                                 <div class="dropdown">
                                 <a class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">

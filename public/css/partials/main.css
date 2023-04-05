@@ -1,4 +1,4 @@
-main h1:first-child{
+main .container:first-child{
     padding-top: 70px;
 }
 
