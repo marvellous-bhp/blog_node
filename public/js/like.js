@@ -6,9 +6,10 @@ function like(post_id) {
       success: function(response) {
         let name_like = ".number-of-like-"+post_id
         let arr = response
-        let va = arr.length
-        $(`${name_like}`).text(va)
-        console.log(va.toString());
+        console.log("rrr",response);
+        let count = response[1]
+        $(`${name_like}`).text(count)
+        // console.log(va.toString());
       },
       error: function(xhr, status, error) {
         console.log(error);

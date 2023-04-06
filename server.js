@@ -16,6 +16,7 @@ const articleRouter = require('./routes/articles');
 const loginRoutes = require('./routes/signRoutes');
 const commentRouter = require('./routes/comment');
 const userRouter = require('./routes/user');
+const imageRoutes = require('./routes/image');
 //cnn db
 mongoose.connect('mongodb://localhost/blog', {
   useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true
@@ -126,6 +127,7 @@ app.post('/upload', (req, res) => {
     if (err) {
       res.status(400).send(err.message);
     } else {
+      console.log("ok nha");
       res.send('Upload success');
     }
   });

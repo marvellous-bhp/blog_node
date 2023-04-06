@@ -68,8 +68,8 @@ router.post('/delete/:id', async (req, res) => {
 router.post('/like/:id', async (req, res) => {
   let user_id = req.session.userId;
   let article = await Article.findById(req.params.id).select("like_list _id");
-  let article_id = article._id
-
+  let old_like = article.like_list.length
+  let new_like
   if(user_id){
     if (article.like_list && (article.like_list.includes(user_id))){
       await Article.updateOne(
@@ -81,12 +81,8 @@ router.post('/like/:id', async (req, res) => {
             like_list: user_id,
           },
         },
-        // {
-        //   $set: {
-        //     like_count: like_list.length(),
-        //   },
-        // }
       )
+      new_like = old_like - 1;
       console.log(article.like_list.length,"aaa");
     }
     else {
@@ -100,12 +96,22 @@ router.post('/like/:id', async (req, res) => {
             },
           }
         );
+        new_like=old_like+1;
         // console.log(article.like_list.length,"aaa");
       }
   }
-  let count = article.like_list
-  
-  res.send(count)
+  // let new_like = article.like_list
+  let like;
+  if(new_like>old_like){
+    like = true;
+  }
+  else{
+    like = false;
+  }
+  let like_arr = [];
+  like_arr.push(like,new_like)
+  console.log(new_like,old_like,new_like > old_like,"kkm");
+  res.send(like_arr)
   // res.redirect(`/like/${id}`)
   // res.redirect(`/dashboard`)
 })
