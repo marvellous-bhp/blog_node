@@ -20,14 +20,15 @@ function comment(post_id) {
         // console.log();
         let cmt_name= '.comment-group-' + response.article
         console.log("naa",$(`${cmt_name}`));
-        console.log("nalll",response.text);
+        console.log("nalll",response);
         let text = response.text
         $(`${cmt_name}`).append(`
         <div class = "cmt-${response._id}">
           <div class="d-flex ">
-          <div class="user">
-            <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg"  width="40">
-          </div>
+           <div class="user">
+             <img class="rounded-circle" src="data:image/${response.User.avatar.contentType};base64,
+             ${response.User.avatar.data.toString('base64')}"  width="40">
+           </div>
           <div> ${text} </div>
             <div class="dropdown">
             <a class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -56,12 +57,11 @@ function comment(post_id) {
     let cmt_class_name = ".cmt-" +  cmt_id;
     let cmt_content_name = ".cmt-content-" +  cmt_id;
     let cmt_text = $(`${cmt_content_name}`).text()
-    $(`${cmt_class_name}`).css("display","none");
-    $(`${cmt_class_name}`).parent().append(`
+    $(`${cmt_content_name}`).css("display","none");
+    $(`${cmt_class_name}`).append(`
     <form class="comment-form" style="display: block" >
       <div class="d-flex flex-row align-items-start">
 
-        <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40">
         <textarea id="txt-${cmt_id}" class="form-control ml-1 shadow-none textarea comment-${cmt_id}-edit" >
           ${cmt_text}
         </textarea>

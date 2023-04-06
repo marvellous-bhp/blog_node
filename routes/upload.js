@@ -1,50 +1,54 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
+const fs = require('fs');
+const path = require('path')
+
 const User = require('../models/user');
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/');
+
+let storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      cb(null, 'uploads')
   },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname);
+  filename: (req, file, cb) => {
+      cb(null, file.fieldname + '-' + Date.now())
   }
 });
 
-const upload = multer({
-  storage: storage,
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype.includes('image/')) {
-      cb(null, true);
-    } else {
-      cb(new Error('Only image files are allowed'));
-    }
-  }
-}).single('image');
+let upload = multer({ storage: storage });
 
-router.post('/img', (req, res) => {
-  upload(req, res, async function (err) {
-    if (err instanceof multer.MulterError) {
-      return res.status(400).json({ message: 'Upload failed', error: err });
-    } else if (err) {
-      return res.status(400).json({ message: 'Upload failed', error: err });
-    }
-
-    const image = await User.findById(req.session.userId).updateOne({
-      avatar: req.body.image,
-      // avatar_path: req.file.path
-    });
-    console.log("upload nha");
-
-    // db.insert(image, (err, newImage) => {
-    //   if (err) {
-    //     return res.status(500).json({ message: 'Error saving image', error: err });
-    //   }
-
-    //   return res.status(200).json({ message: 'Image uploaded', filename: newImage.filename });
-    // });
-  });
+router.get('/img', (req, res) => {
+  console.log("hehe");
+  User.findById(req.session.userId)
+  .then((data, err)=>{
+      if(err){
+          console.log(err);
+      }
+      console.log("dataa",data);
+      res.render('imagepage',{items: data})
+  })
 });
+
+router.post('/img', upload.single('image'), async (req, res, next) => {
+  console.log("lkjh",req.body);
+  var obj = 
+      {
+          data: fs.readFileSync(path.join(__dirname,'..' + '/uploads/' + req.body.image)),
+          contentType: 'image/png'
+      }
+  // console.log("db1",obj);
+  
+  await User.findById(req.session.userId).updateOne(
+    {
+      avatar: obj,
+    },
+  )
+  let id = req.session.userId
+  let u = await User.findById(id);
+  // console.log("mm1",u);
+  res.redirect('/user/detail');
+});
+
 
 module.exports = router;

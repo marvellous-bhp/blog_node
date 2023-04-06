@@ -13,6 +13,7 @@ const path = require('path')
 const port = 3331
 const session = require('express-session');
 const multer = require('multer');
+const fs = require('fs');
 const articleRouter = require('./routes/articles');
 const loginRoutes = require('./routes/signRoutes');
 const commentRouter = require('./routes/comment');
@@ -82,7 +83,7 @@ app.get('/dashboard', async (req, res) => {
   for(let i=0; i<articles.length; i++){
     let user_art = await User.findById(articles[i].User)
     articles[i].User = user_art
-    console.log("ua",user_art);
+    // console.log("ua",user_art);
     let cmt = await Comment.find({ article: articles[i]._id.toString() });
     // let user_cmt = await User.find({_id:cmt.User})
     // console.log("cmmm",cmt);
@@ -97,48 +98,9 @@ app.get('/dashboard', async (req, res) => {
     (articles[i]).comment_list = cmt;
     // console.log("cmme",articles[i].comment_list);
   }
-  // let cme = await Comment.find({ article: "641b21e0abf32c3748942a4b" })
 
-  // console.log("aaar",articles[0].comment_list[0]);
-  res.render('articles/index', { articles,user,aa: JSON.stringify(articles) })
+  res.render('articles/index', { articles,user,userId })
 })
-
-
-
-
-
-// Thiết lập thư mục 'uploads' để lưu trữ các tệp hình ảnh được tải lên
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, 'uploads/');
-//   },
-//   filename: (req, file, cb) => {
-//     const ext = path.extname(file.originalname);
-//     cb(null, Date.now() + ext);
-//   }
-// });
-
-// const upload = multer({
-//   storage: storage,
-//   fileFilter: (req, file, cb) => {
-//     if (file.mimetype.includes('image/')) {
-//       cb(null, true);
-//     } else {
-//       cb(new Error('Only image files are allowed'));
-//     }
-//   }
-// }).single('image');
-
-// app.post('/upload', (req, res) => {
-//   upload(req, res, (err) => {
-//     if (err) {
-//       res.status(400).send(err.message);
-//     } else {
-//       console.log("ok nha",req.body);
-//       res.send('Upload success');
-//     }
-//   });
-// });
 
 
 app.listen(port, () => {

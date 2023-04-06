@@ -27,7 +27,7 @@
         </div>
         <div class="action">
           <a href="/dashboard" class="btn btn-secondary">All Articles</a>
-          <a href="/articles/edit/<%= article.id %>" class="btn btn-info">Edit</a>
+          <a href="/articles/edit/<%= article.id %>" class="btn btn-info" style="margin-left: 5px;">Edit</a>
         </div> 
         <div class="index">
         <div class="bg-white">
@@ -57,7 +57,7 @@
               <div class="comment-form">
                 <div class="d-flex flex-row align-items-start">
     
-                  <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40">
+                  <!-- <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"> -->
                   <textarea id="comment-ckedit" class="form-control ml-1 shadow-none textarea comment-<%= article.id %>" name="comment-<%= article.id %>"id="cmt-content">
     
                   </textarea>
@@ -75,13 +75,14 @@
               <div class = "cmt-<%= comment.id %>">
                 <div class="d-flex ">
                 <div class="user">
-                  <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg"  width="40">
+                  <img class="rounded-circle" src="data:image/<%=comment.User.avatar.contentType%>;base64,
+                  <%=comment.User.avatar.data.toString('base64')%>"  width="40">
                   
                 </div>
                 <div>
                   <span class="d-block font-weight-bold name">
                     <strong>
-                      <%= comment.User %>
+                      <%= comment.User.name %>
                     </strong>
                     <div class="cmt-content-<%= comment.id %>"><%= comment.text %></div> 
                   </span>

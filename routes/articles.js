@@ -34,7 +34,7 @@ router.get('/:slug', async (req, res) => {
     for(let j=0; j<cmt.length;j++){
       // console.log(cmt);
       let user_cmt = await User.find({_id:cmt[j].User})
-      cmt[j].User = user_cmt[0].name
+      cmt[j].User = user_cmt[0]
     }
     (article).comment_list = cmt;
   // console.log("p",req);

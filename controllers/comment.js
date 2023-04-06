@@ -23,9 +23,11 @@ exports.createComment = async (req, res) => {
         },
       }
     )
-    let user = User.findById(comment.User).select("name, avatar")
+    let user = await User.findById(comment.User).select("name, avatar")
+    console.log("ukk",user);
+    comment.User = user
     console.log("cmt ok",cmt_id);
-    res.status(201).json(comment);
+    res.send(comment);
   } catch (err) {
     console.error(err);
     res.status(500).send('Server Error');
