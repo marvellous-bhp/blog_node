@@ -136,6 +136,7 @@ function saveArticleAndRedirect(path) {
     article.markdown = req.body.markdown
     article.User = req.session.userId
     article.status = req.body.status.toString()
+    article.like_list =[]
     console.log(article.status,"user");
     // console.log(req.body);
     try {

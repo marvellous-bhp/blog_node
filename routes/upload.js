@@ -23,7 +23,7 @@ const upload = multer({
   }
 }).single('image');
 
-router.post('/upload', (req, res) => {
+router.post('/img', (req, res) => {
   upload(req, res, async function (err) {
     if (err instanceof multer.MulterError) {
       return res.status(400).json({ message: 'Upload failed', error: err });
@@ -32,17 +32,18 @@ router.post('/upload', (req, res) => {
     }
 
     const image = await User.findById(req.session.userId).updateOne({
-      avatar: req.file.filename,
-      avatar_path: req.file.path
+      avatar: req.body.image,
+      // avatar_path: req.file.path
     });
+    console.log("upload nha");
 
-    db.insert(image, (err, newImage) => {
-      if (err) {
-        return res.status(500).json({ message: 'Error saving image', error: err });
-      }
+    // db.insert(image, (err, newImage) => {
+    //   if (err) {
+    //     return res.status(500).json({ message: 'Error saving image', error: err });
+    //   }
 
-      return res.status(200).json({ message: 'Image uploaded', filename: newImage.filename });
-    });
+    //   return res.status(200).json({ message: 'Image uploaded', filename: newImage.filename });
+    // });
   });
 });
 

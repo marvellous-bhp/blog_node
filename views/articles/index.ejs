@@ -20,7 +20,7 @@
                     <div class="d-flex flex-column comment-section">
                       <div class="bg-white p-2">
                           <div class="d-flex flex-row user-info">
-                            <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40">
+                            <img class="rounded-circle user-article" src="/img/avatar/<%= article.User.avatar %>" width="50" height="50">
                               <div class="d-flex flex-column justify-content-start ml-2">
                                 <span class="d-block font-weight-bold name">
                                   <strong>
@@ -69,11 +69,11 @@
                               <!-- <div class="like p-2 cursor"><i class="fa fa-share"></i><span class="ml-1">Share</span></div> -->
                           </div>
                       </div>
-                      <div class="bg-light p-2 comment-group-<%= article.id %>">
+                      <div class="p-2 comment-group-<%= article.id %>">
                           <div class="comment-form">
                             <div class="d-flex flex-row align-items-start">
 
-                              <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40">
+                              <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" alt="avatar">
                               <textarea id="comment-ckedit" class="form-control ml-1 shadow-none textarea comment-<%= article.id %>" name="comment-<%= article.id %>"id="cmt-content">
   
                               </textarea>
@@ -88,16 +88,15 @@
                             </div>
                           </div>
                           <% article.comment_list.forEach(comment => { %> 
-                            <div class = "cmt-<%= comment.id %>">
+                            <div class = "cmt-<%= comment.id %> vr">
                               <div class="d-flex ">
                               <div class="user">
-                                <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg"  width="40">
-                                
+                                <img class="rounded-circle" src='/img/avatar/<%= comment.User.avatar %>'  width="40">
                               </div>
                               <div>
                                 <span class="d-block font-weight-bold name">
                                   <strong>
-                                    <%= comment.User %>
+                                    <%= comment.User.name %>
                                   </strong>
                                   <div class="cmt-content-<%= comment.id %>"><%= comment.text %></div> 
                                 </span>
@@ -117,6 +116,7 @@
                                 </div>
                               </div>
                             </div>
+                            <hr>
                           <%}) %>
                           
                       </div>

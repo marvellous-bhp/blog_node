@@ -32,9 +32,17 @@ exports.getDetailUser = async (req, res) => {
   try {
     let id = req.session.userId
     let user = await User.findById(id);
-    let articles = await Article.find({User:id.toString()}).sort({ createdAt: -1 })
+    let articles = []
+    articles = await Article.find({User:id.toString()}).sort({ createdAt: -1 })
+    let art_count = articles.length;
+    if (art_count === 0){
+      articles.push({
+        title: 'This account have not had an article',
+      })
+    }
+    // user[0]["password"] = art_count;
     console.log(articles,"oooo");
-    res.render('users/detail', { user,articles })
+    res.render('users/detail', { user,articles,art_count })
     // res.json(users);
   } catch (err) {
     console.error(err);

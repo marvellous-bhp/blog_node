@@ -12,11 +12,12 @@ const app = express()
 const path = require('path')
 const port = 3331
 const session = require('express-session');
+const multer = require('multer');
 const articleRouter = require('./routes/articles');
 const loginRoutes = require('./routes/signRoutes');
 const commentRouter = require('./routes/comment');
 const userRouter = require('./routes/user');
-const imageRoutes = require('./routes/image');
+const uploadRouter = require('./routes/upload');
 //cnn db
 mongoose.connect('mongodb://localhost/blog', {
   useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true
@@ -42,16 +43,17 @@ app.use('/articles', articleRouter);
 app.use('/cmt', commentRouter)
 
 app.use('/user', userRouter)
+
+app.use('/upload', uploadRouter)
 //view
 app.set('view engine', 'ejs')
 
 //app conf
 app.use(express.static('public'));
-app.use(express.static('helpers'))
+app.use(express.static('helpers'));
 
-app.post('/upload',(req,res)=>{
-  console.log("ok")
-})
+// 
+
 
 app.post('/',(req,res)=>{
   console.log(req.body);
@@ -73,17 +75,24 @@ app.get('/dashboard', async (req, res) => {
   let articles = await Article
   .find({$or:[{User:req.session.userId},{status:'public'}]})
   // .populate([{path:'Comment'}])
-  .sort({ updateAt: 1 })
+  .sort({ updatedAt: -1 })
+  
 
 
   for(let i=0; i<articles.length; i++){
+    let user_art = await User.findById(articles[i].User)
+    articles[i].User = user_art
+    console.log("ua",user_art);
     let cmt = await Comment.find({ article: articles[i]._id.toString() });
     // let user_cmt = await User.find({_id:cmt.User})
     // console.log("cmmm",cmt);
     for(let j=0; j<cmt.length;j++){
       // console.log(cmt);
       let user_cmt = await User.find({_id:cmt[j].User})
-      cmt[j].User = user_cmt[0].name
+      // if(user_cmt)
+//      {
+        cmt[j].User = user_cmt[0]
+      // }
     }
     (articles[i]).comment_list = cmt;
     // console.log("cmme",articles[i].comment_list);
@@ -94,44 +103,42 @@ app.get('/dashboard', async (req, res) => {
   res.render('articles/index', { articles,user,aa: JSON.stringify(articles) })
 })
 
-const multer = require('multer');
+
 
 
 
 // Thiết lập thư mục 'uploads' để lưu trữ các tệp hình ảnh được tải lên
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    cb(null, Date.now() + ext);
-  }
-});
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, 'uploads/');
+//   },
+//   filename: (req, file, cb) => {
+//     const ext = path.extname(file.originalname);
+//     cb(null, Date.now() + ext);
+//   }
+// });
 
-// Tạo middleware multer để xử lý tệp hình ảnh được tải lên từ giao diện trên
-const upload = multer({
-  storage: storage,
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype.includes('image/')) {
-      cb(null, true);
-    } else {
-      cb(new Error('Only image files are allowed'));
-    }
-  }
-}).single('image');
+// const upload = multer({
+//   storage: storage,
+//   fileFilter: (req, file, cb) => {
+//     if (file.mimetype.includes('image/')) {
+//       cb(null, true);
+//     } else {
+//       cb(new Error('Only image files are allowed'));
+//     }
+//   }
+// }).single('image');
 
-// Định nghĩa route xử lý yêu cầu tải lên tệp hình ảnh
-app.post('/upload', (req, res) => {
-  upload(req, res, (err) => {
-    if (err) {
-      res.status(400).send(err.message);
-    } else {
-      console.log("ok nha");
-      res.send('Upload success');
-    }
-  });
-});
+// app.post('/upload', (req, res) => {
+//   upload(req, res, (err) => {
+//     if (err) {
+//       res.status(400).send(err.message);
+//     } else {
+//       console.log("ok nha",req.body);
+//       res.send('Upload success');
+//     }
+//   });
+// });
 
 
 app.listen(port, () => {
