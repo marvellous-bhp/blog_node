@@ -17,9 +17,13 @@
                           <div class="row g-0">
                             <div class="col-md-4 gradient-custom text-center text-white"
                               style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-                              <img src="data:image/<%=user.avatar.contentType%>;base64,
-                              <%=user.avatar.data.toString('base64')%>"
-                                alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
+                              <% if ((user.avatar!= null)&&( user.avatar.data != undefined)) { %>
+                                <img src="data:image/<%=user.avatar.contentType%>;base64,
+                                <%=user.avatar.data.toString('base64')%>" width="70" height="70" style="margin-top: 50px; margin-bottom: 10px;"/>
+                                <%} else { %>
+                                  <img src= "https://haycafe.vn/wp-content/uploads/2022/02/Avatar-trang-800x505.jpg" width="70" height="70" style="margin-top: 50px; margin-bottom: 10px;">
+                              <% } %>
+
                                 <div id="imageForm" enctype="multipart/form-data">
                                   <input type="file" name="image" style="padding-left: 63px;">
                                   

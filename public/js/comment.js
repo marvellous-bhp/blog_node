@@ -1,5 +1,5 @@
 function start_comment(){
-  console.log(123);
+  // console.log($(this).closest('div'));
   $(".comment-form").css("display","block");
   // CKEDITOR.replace( 'comment-ckedit' );
 }

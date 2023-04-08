@@ -96,7 +96,10 @@ app.get('/dashboard', async (req, res) => {
       // }
     }
     (articles[i]).comment_list = cmt;
-    // console.log("cmme",articles[i].comment_list);
+    // if (articles[i].User.avatar) {
+      
+    //   console.log("cmme", (articles[i].User.avatar.data===undefined));
+    // }
   }
 
   res.render('articles/index', { articles,user,userId })

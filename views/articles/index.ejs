@@ -20,8 +20,13 @@
                     <div class="d-flex flex-column comment-section">
                       <div class="bg-white p-2">
                           <div class="d-flex flex-row user-info">
-                            <img class="rounded-circle user-article" src= "data:image/<%=article.User.avatar.contentType%>;base64,
-                            <%=article.User.avatar.data.toString('base64')%>" width="50" height="50">
+                            <% if ((article.User.avatar!= null)&&( article.User.avatar.data != undefined)) { %>
+                              <img class="rounded-circle user-article" src= "data:image/<%=article.User.avatar.contentType%>;base64,
+                              <%=article.User.avatar.data.toString('base64')%>" width="50" height="50">
+                              <%} else { %>
+                                <img class="rounded-circle user-article" src= "https://haycafe.vn/wp-content/uploads/2022/02/Avatar-trang-800x505.jpg" width="50" height="50">
+                            <% } %>
+                            
                               <div class="d-flex flex-column justify-content-start ml-2">
                                 <span class="d-block font-weight-bold name">
                                   <strong>
@@ -67,7 +72,6 @@
                                 </a>
                               </div>
                               <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1 comment-text" onclick="start_comment()"  >Comment</span></div>
-                              <!-- <div class="like p-2 cursor"><i class="fa fa-share"></i><span class="ml-1">Share</span></div> -->
                           </div>
                       </div>
                       <div class="p-2 comment-group-<%= article.id %>">
@@ -92,8 +96,13 @@
                             <div class = "cmt-<%= comment.id %> vr">
                               <div class="d-flex ">
                               <div class="user">
-                                <img class="rounded-circle" src="data:image/<%=article.User.avatar.contentType%>;base64,
-                                <%=comment.User.avatar.data.toString('base64')%>"  width="40">
+                                <% if ((comment.User.avatar!= null)&&( comment.User.avatar.data != undefined)) { %>
+                                  <img class="rounded-circle" src="data:image/<%=article.User.avatar.contentType%>;base64,
+                                  <%=comment.User.avatar.data.toString('base64')%>"  width="40">
+                                  <%} else { %>
+                                    <img class="rounded-circle user-article" src= "https://www.google.com/url?sa=i&url=https%3A%2F%2Fvietnamnet.vn%2Fdan-mang-du-trend-facebook-doi-avatar-thanh-mat-trang-i63266.html&psig=AOvVaw3v_GB9B6j_O3s07pRQ-234&ust=1680917278726000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCOCHrpfPlv4CFQAAAAAdAAAAABAE>" width="50" height="50">
+                                <% } %>
+
                               </div>
                               <div>
                                 <span class="d-block font-weight-bold name">
