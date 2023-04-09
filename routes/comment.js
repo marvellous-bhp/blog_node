@@ -7,13 +7,13 @@ const commentController = require('../controllers/comment');
 // Create a new comment
 router.post('/:articleId', commentController.createComment);
 
-// Get a single comment by ID
-router.get('/:articleId', commentController.getComment);
 
 // Update a comment by ID
 router.post('/:id/edit', commentController.updateComment);
 
 // Delete a comment by ID
 router.post('/:id/del', commentController.deleteComment);
+
+router.post('/:id/like', commentController.likeComment);
 
 module.exports = router;

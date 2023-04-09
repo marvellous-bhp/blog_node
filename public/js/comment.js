@@ -23,27 +23,52 @@ function comment(post_id) {
         console.log("nalll",response);
         let text = response.text
         $(`${cmt_name}`).append(`
-        <div class = "cmt-${response._id}">
+        <div class = "cmt-${response._id} ">
           <div class="d-flex ">
-           <div class="user">
-             <img class="rounded-circle" src="data:image/${response.User.avatar.contentType};base64,
-             ${response.User.avatar.data.toString('base64')}"  width="40">
-           </div>
-          <div> ${text} </div>
-            <div class="dropdown">
-            <a class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
-                <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
-              </svg>
-            </a>
-          
-            <ul class="dropdown-menu">
-              <li><button class="dropdown-item" onclick="edit_comment('${response._id}')" >Edit</button></li>
-              <li><button class="dropdown-item" onclick="del_comment('${response._id}')">Delete</button></li>
-            </ul>
+            <div class="user">
+                <img class="rounded-circle" src="data:image/${response.User.avatar.contentType};base64,${response.User.avatar.data.toString('base64')}"  width="40">
             </div>
+            <div>
+              <span class="d-block font-weight-bold name">
+                  <strong>
+                    ${response.User.name}
+                  </strong>
+                <div class="cmt-content-${response._id}">${response.text}</div> 
+              </span>
+            </div>
+            
           </div>
+          <div class="dropdown">
+              <a class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                  <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                </svg>
+              </a>
+            
+              <ul class="dropdown-menu">
+                <li><button class="dropdown-item" onclick="start_edit('${response._id}')" >Edit</button></li>
+                <li><button class="dropdown-item" onclick="del_comment('${response._id}')">Delete</button></li>
+              </ul>
+            </div>
         </div>
+        <div class="bg-white">
+            <div class="d-flex flex-row fs-12">
+                <div class="like p-2 cursor"><i class="fa fa-thumbs-o-up"></i><span class="ml-1">Like</span></div>
+                <div class="react-like mt-2 d-flex">
+                  <div class="number-of-like-${response._id}">
+                      0 
+                  </div>
+                  <a class="like-icon" onclick="like_cmt('${response._id}')">
+                      <img src="/icon/like-active.jpg" alt="active" class="like-active ">
+                  </a>
+                </div>
+                <!-- <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1 comment-text" onclick="start_comment()"  >Comment</span></div> -->
+            </div>
+        <hr>
+        </div>
+
+
+        
         `)
         console.log(1);
       },

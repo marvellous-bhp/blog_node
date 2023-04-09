@@ -14,135 +14,153 @@
         <!-- <p><%- articles[11] %></p> -->
         <a href="/articles/new" class="btn btn-success">New Article</a>
         <% articles.forEach(article => { %>
-          <div class="container mt-5">
-            <div class="d-flex justify-content-center row">
-                <div class="card mt-4">
-                    <div class="d-flex flex-column comment-section">
-                      <div class="bg-white p-2">
-                          <div class="d-flex flex-row user-info">
-                            <% if ((article.User.avatar!= null)&&( article.User.avatar.data != undefined)) { %>
-                              <img class="rounded-circle user-article" src= "data:image/<%=article.User.avatar.contentType%>;base64,
-                              <%=article.User.avatar.data.toString('base64')%>" width="50" height="50">
-                              <%} else { %>
-                                <img class="rounded-circle user-article" src= "https://haycafe.vn/wp-content/uploads/2022/02/Avatar-trang-800x505.jpg" width="50" height="50">
-                            <% } %>
-                            
-                              <div class="d-flex flex-column justify-content-start ml-2">
-                                <span class="d-block font-weight-bold name">
-                                  <strong>
-                                    <%= article.markdown %>
-                                  </strong>
-                                </span>
-                                <span class="date text-black-50"><%= article.status %></span>
-                                <span class="date text-black-50"><%= article.updatedAt.toLocaleString() %></span>
-                              </div>
-                          </div>
-                          <div class="mt-2">
-                              <p class="comment-text"><%= article.title %></p>
-                              <article class="body-article">
-                                <%- article.description %>
-                              </article>
-                          </div>
-                      </div>
-                      <div class="d-flex">
-                        <a href="articles/<%= article.slug %>" class="btn btn-primary">Read More</a>
-                        <div class="can-update">
-                          <a href="articles/edit/<%= article.id %>" class="btn btn-info" style="margin-left: 5px;">Edit</a>
-                          <form action="/articles/delete/<%= article.id %>?" method="post" class="d-inline">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                          </form>
-                        </div>
-                      </div>
-                      <div class="bg-white">
-                          <div class="d-flex flex-row fs-12">
-                              <div class="like p-2 cursor"><i class="fa fa-thumbs-o-up"></i><span class="ml-1">Like</span></div>
-                              <div class="react-like mt-2 d-flex">
-                                <div class="number-of-like-<%= article.id %>">
-                                  <% if (article.like_list) { %>
-                                    <%= article.like_list.length %>
-                                    <%} else { %>
-                                     0 
-                                  <% } %>
+          <% if (article.User!= null) { %>          
+            <div class="container mt-5">
+              <div class="d-flex justify-content-center row">
+                  <div class="card mt-4">
+                      <div class="d-flex flex-column comment-section">
+                        <div class="bg-white p-2">
+                            <div class="d-flex flex-row user-info">
+                              <% if ((article.User.avatar!= null)&&( article.User.avatar.data != undefined)) { %>
+                                <img class="rounded-circle user-article" src= "data:image/<%=article.User.avatar.contentType%>;base64,
+                                <%=article.User.avatar.data.toString('base64')%>" width="50" height="50">
+                                <%} else { %>
+                                  <img class="rounded-circle user-article" src= "https://haycafe.vn/wp-content/uploads/2022/02/Avatar-trang-800x505.jpg" width="50" height="50">
+                              <% } %>
+                              
+                                <div class="d-flex flex-column justify-content-start ml-2">
+                                  <span class="d-block font-weight-bold name">
+                                    <strong>
+                                      <%= article.markdown %>
+                                    </strong>
+                                  </span>
+                                  <span class="date text-black-50"><%= article.status %></span>
+                                  <span class="date text-black-50"><%= article.updatedAt.toLocaleString() %></span>
                                 </div>
-                                <a class="like-icon" onclick="like('<%= article.id %>')">
-                                    <img src="/icon/like-active.jpg" alt="active" class="like-active ">
-                                    <!-- <script>console.log(obj);</script> -->
-                                    <!-- <script>console.log("af",obj);</script> -->
-                                  
-                                </a>
-                              </div>
-                              <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1 comment-text" onclick="start_comment()"  >Comment</span></div>
-                          </div>
-                      </div>
-                      <div class="p-2 comment-group-<%= article.id %>">
-                          <div class="comment-form">
-                            <div class="d-flex flex-row align-items-start">
-
-                              <!-- <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" alt="avatar" width="30px" height="30px"> -->
-                              <textarea id="comment-ckedit" class="form-control ml-1 shadow-none textarea comment-<%= article.id %>" name="comment-<%= article.id %>"id="cmt-content">
-  
-                              </textarea>
-                              <!-- <script>
-                                CKEDITOR.replace( 'comment-ckedit' ).addClass("comment-<%= article.id %>");
-                              </script> -->
                             </div>
-                            
-                            <div class="mt-2 text-right">
-                              <button class="btn btn-primary btn-sm shadow-none" id="send-cmt" onclick="comment('<%= article.id %>')">Post comment</button>
-                              <button class="btn btn-outline-primary btn-sm ml-1 shadow-none">Cancel</button>
+                            <div class="mt-2">
+                                <p class="comment-text"><%= article.title %></p>
+                                <article class="body-article">
+                                  <%- article.description %>
+                                </article>
                             </div>
+                        </div>
+                        <div class="d-flex">
+                          <a href="articles/<%= article.slug %>" class="btn btn-primary">Read More</a>
+                          <div class="can-update">
+                            <a href="articles/edit/<%= article.id %>" class="btn btn-info" style="margin-left: 5px;">Edit</a>
+                            <form action="/articles/delete/<%= article.id %>?" method="post" class="d-inline">
+                              <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
                           </div>
-                          <% article.comment_list.forEach(comment => { %> 
-                            <div class = "cmt-<%= comment.id %> vr">
-                              <div class="d-flex ">
-                              <div class="user">
-                                <% if ((comment.User.avatar!= null)&&( comment.User.avatar.data != undefined)) { %>
-                                  <img class="rounded-circle" src="data:image/<%=article.User.avatar.contentType%>;base64,
-                                  <%=comment.User.avatar.data.toString('base64')%>"  width="40">
-                                  <%} else { %>
-                                    <img class="rounded-circle user-article" src= "https://www.google.com/url?sa=i&url=https%3A%2F%2Fvietnamnet.vn%2Fdan-mang-du-trend-facebook-doi-avatar-thanh-mat-trang-i63266.html&psig=AOvVaw3v_GB9B6j_O3s07pRQ-234&ust=1680917278726000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCOCHrpfPlv4CFQAAAAAdAAAAABAE>" width="50" height="50">
-                                <% } %>
-
-                              </div>
-                              <div>
-                                <span class="d-block font-weight-bold name">
-                                  <strong>
-                                    <%= comment.User.name %>
-                                  </strong>
-                                  <div class="cmt-content-<%= comment.id %>"><%= comment.text %></div> 
-                                </span>
-                              </div>
-                                <% if(comment.User._id == userId){ %>
-                                  <div class="dropdown">
-                                    <a class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
-                                        <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
-                                      </svg>
-                                    </a>
-                                  
-                                    <ul class="dropdown-menu">
-                                      <li><button class="dropdown-item" onclick="start_edit('<%= comment.id %>')" >Edit</button></li>
-                                      <li><button class="dropdown-item" onclick="del_comment('<%= comment.id %>')">Delete</button></li>
-                                    </ul>
+                        </div>
+                        <div class="bg-white">
+                            <div class="d-flex flex-row fs-12">
+                                <div class="like p-2 cursor"><i class="fa fa-thumbs-o-up"></i><span class="ml-1">Like</span></div>
+                                <div class="react-like mt-2 d-flex">
+                                  <div class="number-of-like-<%= article.id %>">
+                                    <% if (article.like_list) { %>
+                                      <%= article.like_list.length %>
+                                      <%} else { %>
+                                      0 
+                                    <% } %>
                                   </div>
-                                  <% } %>
+                                  <a class="like-icon" onclick="like('<%= article.id %>')">
+                                      <img src="/icon/like-active.jpg" alt="active" class="like-active ">
+                                  </a>
+                                </div>
+                                <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1 comment-text" onclick="start_comment()"  >Comment</span></div>
+                            </div>
+                        </div>
+                        <div class="p-2 comment-group-<%= article.id %>">
+                            <div class="comment-form">
+                              <div class="d-flex flex-row align-items-start">
 
-                                  
+                                <!-- <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" alt="avatar" width="30px" height="30px"> -->
+                                <textarea id="comment-ckedit" class="form-control ml-1 shadow-none textarea comment-<%= article.id %>" name="comment-<%= article.id %>"id="cmt-content">
+    
+                                </textarea>
+                                <!-- <script>
+                                  CKEDITOR.replace( 'comment-ckedit' ).addClass("comment-<%= article.id %>");
+                                </script> -->
+                              </div>
+                              
+                              <div class="mt-2 text-right">
+                                <button class="btn btn-primary btn-sm shadow-none" id="send-cmt" onclick="comment('<%= article.id %>')">Post comment</button>
+                                <button class="btn btn-outline-primary btn-sm ml-1 shadow-none">Cancel</button>
                               </div>
                             </div>
-                            <hr>
-                          <%}) %>
-                          
-                      </div>
-                      </div>
+                            <% article.comment_list.forEach(comment => { %> 
+                              <% if (comment.User!= null) { %>
+                                <div class = "cmt-<%= comment.id %> vr">
+                                  <div class="d-flex ">
+                                    <div class="user">
+                                      <% if ((comment.User!= null)&&( comment.User.avatar.data != undefined)) { %>
+                                        <img class="rounded-circle" src="data:image/<%=article.User.avatar.contentType%>;base64,
+                                        <%=comment.User.avatar.data.toString('base64')%>"  width="40">
+                                        <%} else { %>
+                                          <img class="rounded-circle user-article" src= "https://www.google.com/url?sa=i&url=https%3A%2F%2Fvietnamnet.vn%2Fdan-mang-du-trend-facebook-doi-avatar-thanh-mat-trang-i63266.html&psig=AOvVaw3v_GB9B6j_O3s07pRQ-234&ust=1680917278726000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCOCHrpfPlv4CFQAAAAAdAAAAABAE>" width="50" height="50">
+                                      <% } %>
+
+                                    </div>
+                                    <div>
+                                      <span class="d-block font-weight-bold name">
+                                          <strong>
+                                            <%= comment.User.name %>
+                                          </strong>
+                                        <div class="cmt-content-<%= comment.id %>"><%= comment.text %></div> 
+                                      </span>
+                                    </div>
+                                    <% if(comment.User._id == userId){ %>
+                                      <div class="dropdown">
+                                        <a class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                                          </svg>
+                                        </a>
+                                      
+                                        <ul class="dropdown-menu">
+                                          <li><button class="dropdown-item" onclick="start_edit('<%= comment.id %>')" >Edit</button></li>
+                                          <li><button class="dropdown-item" onclick="del_comment('<%= comment.id %>')">Delete</button></li>
+                                        </ul>
+                                      </div>
+                                    <% } %>                                  
+                                  </div>
+                                  <div class="bg-white">
+                                    <div class="d-flex flex-row fs-12">
+                                        <div class="like p-2 cursor"><i class="fa fa-thumbs-o-up"></i><span class="ml-1">Like</span></div>
+                                        <div class="react-like mt-2 d-flex">
+                                          <div class="number-of-like-<%= comment.id %>">
+                                            <% if (comment.like_list) { %>
+                                              <%= comment.like_list.length %>
+                                              <%} else { %>
+                                              0 
+                                            <% } %>
+                                          </div>
+                                          <a class="like-icon" onclick="like_cmt('<%= comment.id %>')">
+                                              <img src="/icon/like-active.jpg" alt="active" class="like-active ">
+                                          </a>
+                                        </div>
+                                        <!-- <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1 comment-text" onclick="start_comment()"  >Comment</span></div> -->
+                                    </div>
+                                </div>
+                                <hr>
+                                </div>
+                              <% } %>
+                              
+                            <%}) %>
+                            
+                        </div>
+                        </div>
+                  </div>
                 </div>
-              </div>
-          </div>
+            </div>
+          <% } %>
         <% }) %>
       </div>
     </div>
   </main>
-  <%= console.log('test') %>
+  <!-- <%= console.log('test') %> -->
   
   <%- include('../partials/footer'); %>
   

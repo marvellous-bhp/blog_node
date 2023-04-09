@@ -9,4 +9,6 @@ router.get('/list', userController.getAllUser);
 
 router.get('/detail', userController.getDetailUser);
 
+router.get('/articles/:slug', userController.getArticleUser)
+
 module.exports = router;

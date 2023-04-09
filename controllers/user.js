@@ -50,3 +50,19 @@ exports.getDetailUser = async (req, res) => {
   }
 };
 
+exports.getArticleUser = async (req, res) => {
+  let article = await Article.findOne({ slug: req.params.slug });
+  let cmt = await Comment.find({ article: article._id.toString() });
+    // let user_cmt = await User.find({_id:cmt.User})
+    // console.log("cmmm",cmt);
+    for(let j=0; j<cmt.length;j++){
+      // console.log(cmt);
+      let user_cmt = await User.find({_id:cmt[j].User})
+      cmt[j].User = user_cmt[0]
+    }
+    (article).comment_list = cmt;
+  // console.log("p",req);
+  if (article == null) res.redirect('/')
+  res.render('articles/show', { article, cmt })
+};
+
