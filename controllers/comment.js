@@ -48,7 +48,7 @@ exports.updateComment = async (req, res) => {
     if (!comment) {
       return res.status(404).send('Comment not found');
     }
-    res.json(comment);
+    res.send(comment);
   } catch (err) {
     console.error(err);
     res.status(500).send('Server Error');

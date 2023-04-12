@@ -7,35 +7,18 @@ const router = express.Router();
 
 // Login route
 router.post('/login', async (req, res) => {
-  const { username, password } = req.body;
-  const login = await User.findOne({ username, password });
+  const { email, password } = req.body;
+  // console.log("ema,pa",req.body);
+  const login = await User.findOne({ email, password });
   if (login) {
     req.session.loggedInAt = login.loggedInAt;
-    console.log(login,"aaaall");
+    // console.log(login,"aaaall");
     req.session.userId = login._id;
     res.redirect(`/dashboard`)
   } else {
     res.status(401).send('Incorrect username or password');
   }
 });
-
-// function getUser(req, res) {
-
-//   let user_id = req.params.id;
-
-//   User.findOne({'_id': user_id}, (err, user) => {
-
-//       if(err) {
-//           return res.json(err);
-//       }
-
-//       return res.json(user);
-
-//   });
-
-// }
-// router.get('/', getUser());
-
 
 // Register route
 router.post('/register', async (req, res) => {
