@@ -61,14 +61,6 @@ app.post('/',(req,res)=>{
 })
 
 app.get('/', async (req, res) => {
-  res.render('sign/login')
-})
-
-app.get('/register', async (req, res) => {
-  res.render('sign/register')
-})
-
-app.get('/dashboard', async (req, res) => {
   let userId = req.session.userId;
   console.log("id: ",req.session);
   let user = await User
@@ -78,8 +70,6 @@ app.get('/dashboard', async (req, res) => {
   // .populate([{path:'Comment'}])
   .sort({ updatedAt: -1 })
   
-
-
   for(let i=0; i<articles.length; i++){
     let user_art = await User.findById(articles[i].User)
     articles[i].User = user_art
@@ -100,7 +90,48 @@ app.get('/dashboard', async (req, res) => {
       
     //   console.log("cmme", (articles[i].User.avatar.data===undefined));
     // }
+    // console.log(articles[0].User._id,userId,">>>><<<");
   }
+
+  res.render('articles/index', { articles,user,userId })
+})
+
+app.get('/login', async (req, res) => {
+  res.render('sign/login')
+})
+
+app.get('/register', async (req, res) => {
+  res.render('sign/register')
+})
+
+app.get('/dashboard', async (req, res) => {
+  let userId = req.session.userId;
+  console.log("id: ",req.session);
+  let user = await User
+  .findById(userId)
+  let articles = await Article
+  .find({$or:[{User:req.session.userId},{status:'public'}]})
+  // .populate([{path:'Comment'}])
+  .sort({ updatedAt: -1 })
+  
+  for(let i=0; i<articles.length; i++){
+    let user_art = await User.findById(articles[i].User)
+    articles[i].User = user_art
+    // console.log("ua",user_art);
+    let cmt = await Comment.find({ article: articles[i]._id.toString() });
+    // let user_cmt = await User.find({_id:cmt.User})
+    // console.log("cmmm",cmt);
+    for(let j=0; j<cmt.length;j++){
+      // console.log(cmt);
+      let user_cmt = await User.find({_id:cmt[j].User})
+      // if(user_cmt)
+//      {
+        cmt[j].User = user_cmt[0]
+      // }
+    }
+    (articles[i]).comment_list = cmt;
+  }
+  console.log("checkkkk",userId === undefined);
 
   res.render('articles/index', { articles,user,userId })
 })

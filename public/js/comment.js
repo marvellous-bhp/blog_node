@@ -18,22 +18,22 @@ function comment(post_id) {
       success: function(response) {
         console.log(response);
         // console.log();
-        let cmt_name= '.comment-group-' + response.article
-        console.log("naa",$(`${cmt_name}`));
+        let cmt_name= '.comment-group-' + response.comment.article
+        console.log("naa",response.user.avatar.data.data.toString());
         console.log("nalll",response);
-        let text = response.text
+        let text = response.comment.text
         $(`${cmt_name}`).append(`
-        <div class = "cmt-${response._id} ">
+        <div class = "cmt-${response.comment._id} ">
           <div class="d-flex ">
             <div class="user">
-                <img class="rounded-circle" src="data:image/${response.User.avatar.contentType};base64,${response.User.avatar.data.toString('base64')}"  width="40">
+                <img class="rounded-circle" src="data:image/${response.user.avatar.contentType};base64,${response.user.avatar.data.toString('base64')}"  width="40">
             </div>
             <div>
               <span class="d-block font-weight-bold name">
                   <strong>
-                    ${response.User.name}
+                    ${response.user.name}
                   </strong>
-                <div class="cmt-content-${response._id}">${response.text}</div> 
+                <div class="cmt-content-${response.comment._id}">${response.comment.text}</div> 
               </span>
             </div>
             
@@ -46,7 +46,7 @@ function comment(post_id) {
               </a>
             
               <ul class="dropdown-menu">
-                <li><button class="dropdown-item" onclick="start_edit('${response._id}')" >Edit</button></li>
+                <li><button class="dropdown-item" onclick="start_edit('${response.comment._id}')" >Edit</button></li>
                 <li><button class="dropdown-item" onclick="del_comment('${response._id}')">Delete</button></li>
               </ul>
             </div>
@@ -55,10 +55,10 @@ function comment(post_id) {
             <div class="d-flex flex-row fs-12">
                 <div class="like p-2 cursor"><i class="fa fa-thumbs-o-up"></i><span class="ml-1">Like</span></div>
                 <div class="react-like mt-2 d-flex">
-                  <div class="number-of-like-${response._id}">
+                  <div class="number-of-like-${response.comment._id}">
                       0 
                   </div>
-                  <a class="like-icon" onclick="like_cmt('${response._id}')">
+                  <a class="like-icon" onclick="like_cmt('${response.comment._id}')">
                       <img src="/icon/like-active.jpg" alt="active" class="like-active ">
                   </a>
                 </div>

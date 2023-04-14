@@ -6,6 +6,7 @@ const User = require('../models/user');
 exports.getAllUser = async (req, res) => {
   try {
     let user = await User.find();
+    let userId = req.session.userId;
     let users = []
     console.log(user,"ll");
     for(let i=0;i<user.length;i++){
@@ -20,7 +21,7 @@ exports.getAllUser = async (req, res) => {
 
     }
     console.log("list u",users);
-    res.render('users/listUser', { users })
+    res.render('users/listUser', { users,userId })
     // res.json(users);
   } catch (err) {
     console.error(err);
@@ -30,10 +31,10 @@ exports.getAllUser = async (req, res) => {
 
 exports.getDetailUser = async (req, res) => {
   try {
-    let id = req.session.userId
-    let user = await User.findById(id);
+    let userId = req.session.userId;
+    let user = await User.findById(userId);
     let articles = []
-    articles = await Article.find({User:id.toString()}).sort({ createdAt: -1 })
+    articles = await Article.find({User:userId.toString()}).sort({ createdAt: -1 })
     let art_count = articles.length;
     if (art_count === 0){
       articles.push({
@@ -42,7 +43,7 @@ exports.getDetailUser = async (req, res) => {
     }
     // user[0]["password"] = art_count;
     console.log(articles,"oooo");
-    res.render('users/detail', { user,articles,art_count })
+    res.render('users/detail', { user,articles,art_count,userId })
     // res.json(users);
   } catch (err) {
     console.error(err);
@@ -52,6 +53,7 @@ exports.getDetailUser = async (req, res) => {
 
 exports.getArticleUser = async (req, res) => {
   let article = await Article.findOne({ slug: req.params.slug });
+  let userId = req.session.userId;
   let cmt = await Comment.find({ article: article._id.toString() });
     // let user_cmt = await User.find({_id:cmt.User})
     // console.log("cmmm",cmt);
@@ -63,6 +65,6 @@ exports.getArticleUser = async (req, res) => {
     (article).comment_list = cmt;
   // console.log("p",req);
   if (article == null) res.redirect('/')
-  res.render('articles/show', { article, cmt })
+  res.render('articles/show', { article, cmt, userId })
 };
 

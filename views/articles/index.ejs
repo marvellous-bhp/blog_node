@@ -12,7 +12,11 @@
       <div class="container">
         <h1 class="mb-4">Blog Articles</h1>
         <!-- <p><%- articles[11] %></p> -->
-        <a href="/articles/new" class="btn btn-success">New Article</a>
+        <% if (userId !== undefined) { %>
+          <a href="/articles/new" class="btn btn-success">New Article</a>
+          <%} else { %>
+          <a href="/login" class="btn btn-success">New Article</a>
+        <% } %>
         <% articles.forEach(article => { %>
           <% if (article.User!= null) { %>          
             <div class="container mt-5">
@@ -47,12 +51,15 @@
                         </div>
                         <div class="d-flex">
                           <a href="articles/<%= article.slug %>" class="btn btn-primary">Read More</a>
-                          <div class="can-update">
-                            <a href="articles/edit/<%= article.id %>" class="btn btn-info" style="margin-left: 5px;">Edit</a>
-                            <form action="/articles/delete/<%= article.id %>?" method="post" class="d-inline">
-                              <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                          </div>
+                          <% if (article.User._id == userId) { %>
+                            <div class="can-update">
+                              <a href="articles/edit/<%= article.id %>" class="btn btn-info" style="margin-left: 5px;">Edit</a>
+                              <form action="/articles/delete/<%= article.id %>?" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                              </form>
+                            </div>
+                            
+                            <%}%>
                         </div>
                         <div class="bg-white">
                             <div class="d-flex flex-row fs-12">
@@ -65,14 +72,31 @@
                                       0 
                                     <% } %>
                                   </div>
-                                  <a class="like-icon" onclick="like('<%= article.id %>')">
-                                      <img src="/icon/like-active.jpg" alt="active" class="like-active ">
-                                  </a>
+                                  <% if (userId !== undefined) { %>
+                                    <a class="like-icon" onclick="like('<%= article.id %>')">
+                                        <img src="/icon/like-active.jpg" alt="active" class="like-active ">
+                                    </a>
+                                    <%} else { %>
+                                      <a class="like-icon">
+                                        <img src="/icon/like-active.jpg" alt="active" class="like-active ">
+                                    </a>
+                                  <% } %>
                                 </div>
-                                <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1 comment-text" onclick="start_comment()"  >Comment</span></div>
+                                <% if (userId !== undefined) { %>
+                                  <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1 comment-text" onclick="start_comment()"  >Comment</span></div>
+                                <%} else { %>
+                                  <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1 comment-text" >Comment</span></div>
+                                <% } %>
+                                <div class="number-of-cmt-<%= article.id %> d-flex align-items-center">
+                                  <% if (article.comment_list) { %>
+                                    <%= article.comment_list.length %>
+                                    <%} else { %>
+                                    0 
+                                  <% } %>
+                                </div>
                             </div>
                         </div>
-                        <div class="p-2 comment-group-<%= article.id %>">
+                        <div class="p-2 comment-group-<%= article.id %> d-none">
                             <div class="comment-form">
                               <div class="d-flex flex-row align-items-start">
 

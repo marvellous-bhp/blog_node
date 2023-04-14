@@ -19,6 +19,7 @@
             <%- article.detail %>
           </article>
           <div class="tail-article">
+            <!-- <%- article %> -->
             <i>
               <%- article.sanitizedHtml %>
             </i>
@@ -27,7 +28,9 @@
         </div>
         <div class="action">
           <a href="/dashboard" class="btn btn-secondary">All Articles</a>
-          <a href="/articles/edit/<%= article.id %>" class="btn btn-info" style="margin-left: 5px;">Edit</a>
+          <% if (userId !== undefined) { %>
+            <a href="/articles/edit/<%= article.id %>" class="btn btn-info" style="margin-left: 5px;">Edit</a>
+          <%} %>
         </div> 
         <div class="index">
         <div class="bg-white">
@@ -48,7 +51,21 @@
                   
                 </a>
               </div>
-              <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1 comment-text" onclick="start_comment()"  >Comment</span></div>
+              <% if (userId !== undefined) { %>
+                <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1 comment-text" onclick="start_comment()"  >Comment</span></div>
+              <%} else { %>
+                <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1 comment-text" >Comment</span></div>
+              <% } %>
+              <!-- <div class="number-of-cmt-<%= article.id %> d-flex align-items-center">
+                <% if (article.comment_list) { %>
+                  <p style="margin: 0; margin-bottom: 8px;">
+
+                    <%= article.comment_list.length %>
+                  </p>
+                  <%} else { %>
+                    <p style="margin: 0;margin-bottom: 8px;">0</p>
+                <% } %>
+              </div> -->
               <!-- <div class="like p-2 cursor"><i class="fa fa-share"></i><span class="ml-1">Share</span></div> -->
           </div>
       </div>

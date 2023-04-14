@@ -7,7 +7,7 @@ exports.createComment = async (req, res) => {
   try {
     console.log("cmt",req.body);
     let arr = []
-    const comment = new Comment({
+    let comment = new Comment({
       text: req.body.comment,
       User: req.session.userId,
       article: req.params.articleId,
@@ -29,8 +29,8 @@ exports.createComment = async (req, res) => {
     let user = await User.findById(req.session.userId)
     console.log("ukk",req.session.userId,user);
     comment.User = user
-    console.log("cmt ok",comment);
-    res.send(comment);
+    console.log("cmt ok",comment.User.avatar.data.toString('base64'));
+    res.send({comment,user});
   } catch (err) {
     console.error(err);
     res.status(500).send('Server Error');
@@ -40,7 +40,7 @@ exports.createComment = async (req, res) => {
 exports.updateComment = async (req, res) => {
   try {
     console.log("repara",req.body);
-    const comment = await Comment.findByIdAndUpdate(
+    let comment = await Comment.findByIdAndUpdate(
       req.params.id,
       { $set: req.body },
       { new: true }
@@ -57,7 +57,7 @@ exports.updateComment = async (req, res) => {
 
 exports.deleteComment = async (req, res) => {
   try {
-    const comment = await Comment.findByIdAndDelete(req.params.id);
+    let comment = await Comment.findByIdAndDelete(req.params.id);
     if (!comment) {
       return res.status(404).send('Comment not found');
     }

@@ -16,27 +16,32 @@
           <li class="nav-item">
             <a class="nav-link" href="/user/list">List Users</a>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Account
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/user/detail">Detail</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </li>
-          <!-- <li class="nav-item">
-            <a class="nav-link disabled">Disabled</a>
-          </li> -->
+          <% if (userId !== undefined) { %>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Account
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/user/detail">Detail</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+          <% } %>
         </ul>
         <div>
-          <form action="/logout" method="post" class="d-flex" role="logout">
-            
-            <!-- <input class="form-control me-2" type="logout" placeholder="logout" aria-label="logout"> -->
-            <button class="btn btn-outline-success" type="submit">Log out</button>
-          </form>
+          <% if (userId === undefined) { %>
+            <a href="/login"  class="d-flex text-decoration-none" >
+              <!-- <input class="form-control me-2" type="logout" placeholder="logout" aria-label="logout"> -->
+              <button class="btn btn-outline-success" type="submit">Login </button>
+            </a>
+          <%} else { %>
+              <form action="/logout" method="post" class="d-flex" role="logout">
+                <!-- <input class="form-control me-2" type="logout" placeholder="logout" aria-label="logout"> -->
+                <button class="btn btn-outline-success" type="submit">Log out</button>
+              </form>
+          <% } %>
         </div>
 
         
