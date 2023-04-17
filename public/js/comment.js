@@ -19,53 +19,54 @@ function comment(post_id) {
         console.log(response);
         // console.log();
         let cmt_name= '.comment-group-' + response.comment.article
-        console.log("naa",response.user.avatar.data.data.toString());
+        console.log("naa",response.user.avatar.data.toString());
         console.log("nalll",response);
         let text = response.comment.text
         $(`${cmt_name}`).append(`
-        <div class = "cmt-${response.comment._id} ">
+        <div class = "cmt-${ response.comment.id }">
           <div class="d-flex ">
-            <div class="user">
-                <img class="rounded-circle" src="data:image/${response.user.avatar.contentType};base64,${response.user.avatar.data.toString('base64')}"  width="40">
-            </div>
-            <div>
-              <span class="d-block font-weight-bold name">
-                  <strong>
-                    ${response.user.name}
-                  </strong>
-                <div class="cmt-content-${response.comment._id}">${response.comment.text}</div> 
-              </span>
-            </div>
-            
-          </div>
-          <div class="dropdown">
-              <a class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
-                  <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
-                </svg>
-              </a>
-            
-              <ul class="dropdown-menu">
-                <li><button class="dropdown-item" onclick="start_edit('${response.comment._id}')" >Edit</button></li>
-                <li><button class="dropdown-item" onclick="del_comment('${response._id}')">Delete</button></li>
-              </ul>
-            </div>
+        <div class="user">
+            <img class="rounded-circle" src="data:image/${response.comment.User.avatar.contentType};base64,
+          ${response.ava}"  width="40">
+          
         </div>
-        <div class="bg-white">
-            <div class="d-flex flex-row fs-12">
-                <div class="like p-2 cursor"><i class="fa fa-thumbs-o-up"></i><span class="ml-1">Like</span></div>
-                <div class="react-like mt-2 d-flex">
-                  <div class="number-of-like-${response.comment._id}">
-                      0 
+        <div>
+          <span class="d-block font-weight-bold name">
+            <strong>
+              ${ response.comment.User.name }
+            </strong>
+            <div class="cmt-content-${ response.comment.id }">
+              ${ response.comment.text }
+              <div class="bg-white">
+                <div class="d-flex flex-row fs-12">
+                  <div class="like p-2 cursor"><i class="fa fa-thumbs-o-up"></i><span class="ml-1">Like</span></div>
+                    <div class="react-like mt-2 d-flex">
+                      <div class="number-of-like-${ response.comment._id }">
+                          <p>${ response.comment.like_list.length }</p>
+                      </div>
+                    <a class="like-icon">
+                        <img src="/icon/like-active.jpg" alt="active" class="like-active ">
+                    </a>
                   </div>
-                  <a class="like-icon" onclick="like_cmt('${response.comment._id}')">
-                      <img src="/icon/like-active.jpg" alt="active" class="like-active ">
-                  </a>
                 </div>
-                <!-- <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1 comment-text" onclick="start_comment()"  >Comment</span></div> -->
-            </div>
-        <hr>
+              </div>
+            </div> 
+          </span>
         </div>
+          <div class="dropdown">
+            <a class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+              </svg>
+            </a>
+          
+            <ul class="dropdown-menu">
+              <li><button class="dropdown-item" onclick="start_edit('${ response.comment.id }')" >Edit</button></li>
+              <li><button class="dropdown-item" onclick="del_comment('${ response.comment.id }')">Delete</button></li>
+            </ul>
+          </div>
+        </div>
+      </div>
 
 
         

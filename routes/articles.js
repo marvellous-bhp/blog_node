@@ -31,8 +31,8 @@ router.get('/:slug', async (req, res) => {
   let userId = req.session.userId;
   let article = await Article.findOne({ slug: req.params.slug });
   console.log(article.User,"llkjh");
-  let markdown = await User.findById(article.User);
-  article.markdown = markdown
+  let markdown = await User.findById(article.User).select("name avatar");
+  article.User = markdown
   let cmt = await Comment.find({ article: article._id.toString() });
     // let user_cmt = await User.find({_id:cmt.User})
     // console.log("cmmm",cmt);

@@ -20,8 +20,13 @@
           </article>
           <div class="tail-article">
             <!-- <%- article %> -->
+            <span>
+
+            </span>
             <i>
-              <%- article.sanitizedHtml %>
+              <img class="rounded-circle" src="data:image/<%=article.User.avatar.contentType%>;base64,
+              <%=article.User.avatar.data.toString('base64')%>"  style="width: 60px;height: 60px;margin-bottom: 10px;"">
+              <%- article.User.name %>
             </i>
           </div>
           
@@ -44,12 +49,15 @@
                     <p> 0 </p>
                   <% } %>
                 </div>
-                <a class="like-icon" onclick="like('<%= article.id %>')">
-                    <img src="/icon/like-active.jpg" alt="active" class="like-active ">
-                    <!-- <script>console.log(obj);</script> -->
-                    <!-- <script>console.log("af",obj);</script> -->
-                  
-                </a>
+                <% if (userId !== undefined) { %>
+                  <a class="like-icon" onclick="like('<%= article.id %>')">
+                      <img src="/icon/like-active.jpg" alt="active" class="like-active ">
+                  </a>
+                  <%} else { %>
+                    <a class="like-icon">
+                      <img src="/icon/like-active.jpg" alt="active" class="like-active ">
+                  </a>
+                <% } %>
               </div>
               <% if (userId !== undefined) { %>
                 <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1 comment-text" onclick="start_comment()"  >Comment</span></div>
@@ -84,8 +92,8 @@
                 </div>
                 
                 <div class="mt-2 text-right">
-                  <button class="btn btn-primary btn-sm shadow-none" id="send-cmt" onclick="comment('<%= article.id %>')">Post comment</button>
-                  <button class="btn btn-outline-primary btn-sm ml-1 shadow-none">Cancel</button>
+                  <a class="btn btn-primary btn-sm shadow-none" id="send-cmt" onclick="comment('<%= article.id %>')">Post comment</a>
+                  <a class="btn btn-outline-primary btn-sm ml-1 shadow-none">Cancel</a>
                 </div>
               </div>
             <% article.comment_list.forEach(comment => { %> 
@@ -107,22 +115,49 @@
                       <strong>
                         <%= comment.User.name %>
                       </strong>
-                      <div class="cmt-content-<%= comment.id %>"><%= comment.text %></div> 
+                      <div class="cmt-content-<%= comment.id %>">
+                        <%= comment.text %>
+                        <div class="bg-white">
+                          <div class="d-flex flex-row fs-12">
+                              <div class="like p-2 cursor"><i class="fa fa-thumbs-o-up"></i><span class="ml-1">Like</span></div>
+                              <div class="react-like mt-2 d-flex">
+                                <div class="number-of-like-<%= comment._id %>">
+                                  <% if (comment.like_list) { %>
+                                    <p><%= comment.like_list.length %></p>
+                                    <%} else { %>
+                                    <p> 0 </p>
+                                  <% } %>
+                                </div>
+                                <% if (userId !== undefined) { %>
+                                  <a class="like-icon" onclick="like_cmt('<%= comment._id %>')">
+                                      <img src="/icon/like-active.jpg" alt="active" class="like-active ">
+                                  </a>
+                                  <%} else { %>
+                                    <a class="like-icon">
+                                      <img src="/icon/like-active.jpg" alt="active" class="like-active ">
+                                  </a>
+                                <% } %>
+                              </div>
+                              <!-- <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1 comment-text" onclick="start_comment()"  >Comment</span></div> -->
+                          </div>
+                        </div>
+                      </div> 
                     </span>
                   </div>
-                  
+                  <% if(comment.User._id == userId){ %>
                     <div class="dropdown">
-                    <a class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
-                        <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
-                      </svg>
-                    </a>
-                  
-                    <ul class="dropdown-menu">
-                      <li><button class="dropdown-item" onclick="start_edit('<%= comment.id %>')" >Edit</button></li>
-                      <li><button class="dropdown-item" onclick="del_comment('<%= comment.id %>')">Delete</button></li>
-                    </ul>
+                      <a class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                          <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                        </svg>
+                      </a>
+                    
+                      <ul class="dropdown-menu">
+                        <li><button class="dropdown-item" onclick="start_edit('<%= comment.id %>')" >Edit</button></li>
+                        <li><button class="dropdown-item" onclick="del_comment('<%= comment.id %>')">Delete</button></li>
+                      </ul>
                     </div>
+                  <% } %> 
                   </div>
                 </div>
               <%} %>

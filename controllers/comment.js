@@ -3,9 +3,9 @@ const Article = require('../models/article');
 const User = require('../models/user');
 
 exports.createComment = async (req, res) => {
-  console.log("rep",req.params);
+  // console.log("rep",req.params);
   try {
-    console.log("cmt",req.body);
+    // console.log("cmt",req.body);
     let arr = []
     let comment = new Comment({
       text: req.body.comment,
@@ -26,11 +26,11 @@ exports.createComment = async (req, res) => {
         },
       }
     )
-    let user = await User.findById(req.session.userId)
-    console.log("ukk",req.session.userId,user);
+    let user = await User.findById(req.session.userId).select("name avatar")
+    // console.log("ukk",req.session.userId,user);
     comment.User = user
-    console.log("cmt ok",comment.User.avatar.data.toString('base64'));
-    res.send({comment,user});
+    let ava = comment.User.avatar.data.toString('base64')
+    res.send({comment,user,ava});
   } catch (err) {
     console.error(err);
     res.status(500).send('Server Error');
@@ -39,7 +39,7 @@ exports.createComment = async (req, res) => {
 
 exports.updateComment = async (req, res) => {
   try {
-    console.log("repara",req.body);
+    // console.log("repara",req.body);
     let comment = await Comment.findByIdAndUpdate(
       req.params.id,
       { $set: req.body },
