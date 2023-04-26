@@ -20,20 +20,16 @@
           </article>
           <div class="tail-article">
             <!-- <%- article %> -->
-            <span>
-
-            </span>
             <i>
               <img class="rounded-circle" src="data:image/<%=article.User.avatar.contentType%>;base64,
               <%=article.User.avatar.data.toString('base64')%>"  style="width: 60px;height: 60px;margin-bottom: 10px;"">
               <%- article.User.name %>
             </i>
           </div>
-          
         </div>
         <div class="action">
           <a href="/dashboard" class="btn btn-secondary">All Articles</a>
-          <% if (userId !== undefined) { %>
+          <% if (userId === article.User._id) { %>
             <a href="/articles/edit/<%= article.id %>" class="btn btn-info" style="margin-left: 5px;">Edit</a>
           <%} %>
         </div> 
@@ -77,11 +73,9 @@
               <!-- <div class="like p-2 cursor"><i class="fa fa-share"></i><span class="ml-1">Share</span></div> -->
           </div>
       </div>
-      
           <div class="p-2 comment-group-<%= article.id %>">
               <div class="comment-form">
                 <div class="d-flex flex-row align-items-start">
-    
                   <!-- <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"> -->
                   <textarea id="comment-ckedit" class="form-control ml-1 shadow-none textarea comment-<%= article.id %>" name="comment-<%= article.id %>"id="cmt-content">
     
@@ -90,7 +84,6 @@
                     CKEDITOR.replace( 'comment-ckedit' ).addClass("comment-<%= article.id %>");
                   </script> -->
                 </div>
-                
                 <div class="mt-2 text-right">
                   <a class="btn btn-primary btn-sm shadow-none" id="send-cmt" onclick="comment('<%= article.id %>')">Post comment</a>
                   <a class="btn btn-outline-primary btn-sm ml-1 shadow-none">Cancel</a>
@@ -107,8 +100,6 @@
                       <%} else { %>
                         <img class="rounded-circle user-article" src= "https://www.google.com/url?sa=i&url=https%3A%2F%2Fvietnamnet.vn%2Fdan-mang-du-trend-facebook-doi-avatar-thanh-mat-trang-i63266.html&psig=AOvVaw3v_GB9B6j_O3s07pRQ-234&ust=1680917278726000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCOCHrpfPlv4CFQAAAAAdAAAAABAE>" width="50" height="50">
                     <% } %>
-                    
-                    
                   </div>
                   <div>
                     <span class="d-block font-weight-bold name">

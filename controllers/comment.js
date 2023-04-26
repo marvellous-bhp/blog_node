@@ -69,7 +69,6 @@ exports.deleteComment = async (req, res) => {
 };
 
 exports.likeComment = async (req, res) => {
-  
   let user_id = req.session.userId;
   let comment = await Comment.findById(req.params.id).select("like_list _id");
   console.log(comment,"lkjhg");
@@ -119,5 +118,3 @@ exports.likeComment = async (req, res) => {
   res.send(like_arr)
   // res.send("o")
 };
-
-

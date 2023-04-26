@@ -1,7 +1,7 @@
 const Comment = require('../models/comment');
 const Article = require('../models/article');
 const User = require('../models/user');
-
+const {showArticles} = require('../helpers/showArticles');
 
 exports.getAllUser = async (req, res) => {
   try {
@@ -68,3 +68,12 @@ exports.getArticleUser = async (req, res) => {
   res.render('articles/show', { article, cmt, userId })
 };
 
+exports.getArticlesUser = async (req, res) => {
+  let user_id = req.params.user_id;
+  let userId = req.session.userId;
+  console.log("aaabvc",userId);
+
+  let articles = await showArticles(user_id,'onlyUser')
+
+  res.render('articles/index', { articles,userId })
+};

@@ -13,7 +13,6 @@
                 <table class="table">
                     <thead>
                       <tr>
-                        <th scope="col">ID</th>
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
                         <th scope="col" style="text-align: center;">Number of articles</th>
@@ -22,10 +21,15 @@
                     <tbody>
                       <% users.forEach(user => { %>
                         <tr>
-                          <td><%= user._id %></td>
                           <td><%= user.name %></td>
                           <td><%= user.email %></td>
-                          <td style="text-align: center;"><%= user.password %></td>
+                          <td style="text-align: center;">
+                            <a href="/user/articles/<%= user._id %>" style="color: black;text-decoration: none;">
+                              <%= user.password %>
+                            </a>
+                            
+                          </td>
+                          <input name="id" value="<%= user._id %>" hidden>
                         </tr>
                       <%}) %>
                     </tbody>

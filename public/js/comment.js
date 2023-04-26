@@ -136,7 +136,7 @@ function comment(post_id) {
     // console.log("val",cmt);
     $.ajax({
       url: `/cmt/${cmt_id}/del`,
-      type: 'POST',
+      type: 'get',
       // data: {comment:cmt },
       // dataType : "json",
       success: function(response) {

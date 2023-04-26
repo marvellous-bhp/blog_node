@@ -30,18 +30,18 @@ router.get('/edit/:id', async (req, res) => {
 router.get('/:slug', async (req, res) => {
   let userId = req.session.userId;
   let article = await Article.findOne({ slug: req.params.slug });
-  console.log(article.User,"llkjh");
+  // console.log(article.User,"llkjh");
   let markdown = await User.findById(article.User).select("name avatar");
   article.User = markdown
   let cmt = await Comment.find({ article: article._id.toString() });
-    // let user_cmt = await User.find({_id:cmt.User})
-    // console.log("cmmm",cmt);
-    for(let j=0; j<cmt.length;j++){
-      // console.log(cmt);
-      let user_cmt = await User.find({_id:cmt[j].User})
-      cmt[j].User = user_cmt[0]
-    }
-    (article).comment_list = cmt;
+  // let user_cmt = await User.find({_id:cmt.User})
+  // console.log("cmmm",cmt);
+  for(let j=0; j<cmt.length;j++){
+    // console.log(cmt);
+    let user_cmt = await User.find({_id:cmt[j].User})
+    cmt[j].User = user_cmt[0]
+  }
+  (article).comment_list = cmt;
   // console.log("p",req);
   if (article == null) res.redirect('/')
   res.render('articles/show', { article, cmt,userId })
@@ -64,7 +64,7 @@ router.post('/:id', async (req, res, next) => {
   next()
 }, saveArticleAndRedirect('/edit'))
 
-router.post('/delete/:id', async (req, res) => {
+router.get('/delete/:id', async (req, res) => {
   let cur_user = req.session.userId;
   let art = await Article.findById(req.params.id).select("User")
   console.log(art,"arrrrj");
@@ -76,7 +76,7 @@ router.post('/delete/:id', async (req, res) => {
   // else res.send("It is not your Article!!!")
 })
 
-router.post('/like/:id', async (req, res) => {
+router.get('/like/:id', async (req, res) => {
   let user_id = req.session.userId;
   let article = await Article.findById(req.params.id).select("like_list _id");
   let old_like = article.like_list.length
@@ -123,17 +123,7 @@ router.post('/like/:id', async (req, res) => {
   like_arr.push(like,new_like)
   console.log(new_like,old_like,new_like > old_like,"kkm");
   res.send(like_arr)
-  // res.redirect(`/like/${id}`)
-  // res.redirect(`/dashboard`)
 })
-
-// router.get("/like/:id", async(req,res)=>{
-//   let article = await Article.findById(req.params.id).select("like_list _id");
-
-//   console.log(article,"kkkkkkk");
-//   res.render("custom/payout_information_1_completed",{payout_completed, current_balance});
-// })
-
 
 function saveArticleAndRedirect(path) {
   return async (req, res) => {
@@ -159,5 +149,11 @@ function saveArticleAndRedirect(path) {
     }
   }
 }
+
+// function checkOwn(currentId){
+//   return async(req,res)=>{
+//     let ownId = 
+//   }
+// }
 
 module.exports = router

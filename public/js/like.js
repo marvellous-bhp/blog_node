@@ -2,7 +2,7 @@
 function like(post_id) {
     $.ajax({
       url: `/articles/like/${post_id}`,
-      type: 'POST',
+      type: 'GET',
       success: function(response) {
         let name_like = ".number-of-like-"+post_id
         console.log("rrr",response);
@@ -19,7 +19,7 @@ function like(post_id) {
   function like_cmt(cmt_id) {
     $.ajax({
       url: `/cmt/${cmt_id}/like`,
-      type: 'POST',
+      type: 'GET',
       success: function(response) {
         let name_like = ".number-of-like-"+cmt_id
         console.log("rrrcmt",response);
